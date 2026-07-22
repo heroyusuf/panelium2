@@ -1,0 +1,1527 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pannellum Görsel Tur Editörü</title>
+    <link rel="stylesheet" href="pannellum.css"/>
+    <script type="text/javascript" src="pannellum.js"></script>
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden; background: #333; color: white;}
+        #panorama { width: 100vw; height: 100vh; }
+
+        /* ── Özel ikon: Pannellum sprite'ını tamamen gizle ── */
+        .pnlm-hotspot.custom-icon-hs {
+            background-image: none !important;
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            width: 40px !important;
+            height: 40px !important;
+        }
+        .pnlm-hotspot.custom-icon-hs:hover { background-color: transparent !important; }
+        .pnlm-hotspot.custom-icon-hs img { display: block; width: 40px; height: 40px; cursor: pointer; }
+
+        .editor-window {
+            position: absolute;
+            width: 300px;
+            background: rgba(0,0,0,0.88);
+            border-radius: 8px;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            max-height: 85vh;
+        }
+        .panel-header {
+            background: #222;
+            padding: 10px 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            cursor: move;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        .panel-header h3 { margin: 0; font-size: 15px; color: #ffcc00; pointer-events: none; }
+        .panel-content { 
+            padding: 15px; 
+            overflow-y: auto; 
+            max-height: 600px;
+            transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+        .editor-window.collapsed .panel-content {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+            overflow: hidden;
+            border-top: none;
+        }
+        /* Alt bilgi (dosya adı) bandını gizle */
+        .pnlm-panorama-info, .pnlm-title-box, .pnlm-author-box { display: none !important; }
+
+        #main-sidebar { top: 20px; left: 20px; width: 340px; }
+        
+        .sub-panel {
+            border-bottom: 1px solid #444;
+            background: rgba(0,0,0,0.5);
+        }
+        .sub-panel:last-child { border-bottom: none; }
+        
+        .sub-panel-header {
+            background: #2a2a2a;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .sub-panel-header:hover { background: #333; }
+        .sub-panel-header h4 { margin: 0; font-size: 14px; color: #ddd; pointer-events: none; }
+        
+        .sub-panel-content {
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 600px;
+            transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+        
+        .sub-panel.collapsed .sub-panel-content {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+            overflow: hidden;
+            border-top: none;
+        }
+
+        #editor-panel     { top: 20px;   right: 20px; display: none; width: 320px; }
+
+        label { display: block; margin-top: 10px; font-size: 12px; color: #ccc;}
+        input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; background: #222; border: 1px solid #555; color: white; border-radius: 4px; }
+        button { width: 100%; padding: 10px; margin-top: 10px; background: #ffcc00; color: #000; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        button:hover { background: #e6b800; }
+        .btn-cancel { background: #555; color: white; }
+        .btn-cancel:hover { background: #777; }
+        .btn-danger { background: #cc0000; color: white; }
+        .btn-danger:hover { background: #ff3333; }
+        .btn-save-all { background: #4CAF50; color: white; }
+        .btn-save-all:hover { background: #45a049; }
+        .btn-sm { padding: 5px 10px; width: auto; display: inline-block; margin: 2px; font-size: 11px; }
+        .help-text { font-size: 12px; color: #aaa; margin-bottom: 5px;}
+
+        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
+        #video-modal-content { position: relative; width: 80%; max-width: 960px; background: #000; border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.7); overflow: hidden; aspect-ratio: 16 / 9; }
+        #video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #video-modal iframe, #video-modal video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px; }
+        #close-modal { position: absolute; top: -15px; right: -15px; width: 40px; height: 40px; background: #ffcc00; color: #000; font-weight: bold; font-size: 20px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; border: 2px solid #333; z-index: 10001; }
+        #close-modal:hover { background: #fff; }
+
+        #social-container-preview { position: absolute; bottom: 20px; right: 20px; z-index: 9998; display: flex; gap: 15px; }
+        #social-container-preview img { width: 40px; height: 40px; cursor: pointer; transition: transform 0.2s; }
+        .social-item { background: #222; padding: 8px; border-radius: 5px; margin-bottom: 8px; }
+        .hs-list-item { background: #222; padding: 8px; border-radius: 4px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+        .hs-list-item span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .range-row { display: flex; align-items: center; gap: 8px; }
+        .range-row input[type=range] { flex: 1; padding: 0; margin-top: 0; }
+        .range-val { color: #ffcc00; font-weight: bold; min-width: 38px; font-size: 13px; }
+        .cb-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+        .cb-row input[type=checkbox] { width: auto; margin: 0; }
+    
+        /* Thumbnails Bar */
+        #scene-dropdown-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 20;
+        }
+        #scene-dropdown-btn {
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            border: 1px solid #555;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            min-width: 250px;
+            text-align: left;
+        }
+        #thumbnail-bar {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            margin-bottom: 5px;
+            width: 300px;
+            max-height: 400px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #444;
+            border-radius: 5px;
+            overflow-y: auto;
+            padding: 5px;
+            box-sizing: border-box;
+            display: none;
+        }
+        .thumb-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            padding: 8px 10px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            transition: 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .thumb-item:last-child {
+            margin-bottom: 0;
+        }
+        .thumb-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+        .thumb-item:hover, .thumb-item.active {
+            border-color: #ffcc00;
+            background: #555;
+        }
+        }
+
+        /* Skin Menu - Live Preview (serbest konumlandırma) */
+        #skin-menu-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; pointer-events: none; }
+        .skin-btn {
+            pointer-events: auto;
+            position: absolute;
+            background: rgba(0,0,0,0.65);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: grab;
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+            text-decoration: none;
+            font-weight: bold;
+            user-select: none;
+            white-space: nowrap;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+        .skin-btn:hover { background: rgba(255,255,255,0.92); color: #000; box-shadow: 0 4px 20px rgba(255,204,0,0.4); }
+        .skin-btn.dragging { cursor: grabbing; opacity: 0.7; transition: none; }
+
+        /* Tooltip (CSS ::after) */
+        .skin-btn[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: rgba(0,0,0,0.85);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: normal;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 10;
+        }
+        .skin-btn[data-tooltip]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        .skin-btn.dragging[data-tooltip]::after { opacity: 0 !important; }
+
+        /* Skin Modal - Live Preview */
+        #skin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 10002; justify-content: center; align-items: center; }
+        #skin-modal-content { position: relative; width: 80%; max-width: 90vw; max-height: 90vh; background: rgba(20,20,20,0.9); border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); overflow: hidden; color: white; display: flex; flex-direction: column; }
+        #skin-modal-body { padding: 30px; overflow-y: auto; flex: 1; position: relative; }
+        #close-skin-modal { position: absolute; top: 15px; right: 15px; width: 35px; height: 35px; background: rgba(255,255,255,0.1); color: #fff; font-weight: bold; font-size: 18px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; border: none; z-index: 10003; transition: 0.3s; }
+        #close-skin-modal:hover { background: #f44336; }
+
+        /* Skin list item konum bilgisi */
+        .skin-list-pos { display:flex; gap:6px; margin-top:4px; }
+        .skin-list-pos label { margin:0; font-size:10px; color:#aaa; white-space:nowrap; line-height:26px; }
+        .skin-list-pos input { flex:1; padding:3px 5px; font-size:11px; background:#1a1a1a; border:1px solid #444; color:#ffcc00; border-radius:3px; margin:0; width:50px; }
+
+    </style>
+</head>
+<body>
+
+<div id="panorama"></div>
+
+<!-- Live Preview Containers -->
+<div id="skin-menu-container"></div>
+<div id="skin-modal">
+    <div id="skin-modal-content">
+        <button id="close-skin-modal" onclick="closeSkinModal()">X</button>
+        <div id="skin-modal-body"></div>
+    </div>
+</div>
+
+<!-- Ana Kontrol Barı -->
+<div id="main-sidebar" class="editor-window">
+    <div class="panel-header"><h3>⚙️ Kontrol Paneli</h3></div>
+    <div class="panel-content" style="padding: 0;">
+        
+        <!-- Ana Kontrol -->
+        <div id="top-panel" class="sub-panel collapsed">
+            <div class="sub-panel-header"><h4>Ana Kontrol</h4></div>
+            <div class="sub-panel-content">
+                <p class="help-text">Panoramada boş bir noktaya tıklayarak yeni hotspot ekleyin.</p>
+                <button class="btn-save-all" onclick="saveConfig()">💾 Tüm Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+
+        <!-- Otomatik Döndürme -->
+        <div id="autorotate-panel" class="sub-panel collapsed">
+            <div class="sub-panel-header"><h4>🔄 Otomatik Döndürme</h4></div>
+            <div class="sub-panel-content">
+                <div class="cb-row">
+                    <input type="checkbox" id="ar-enabled" onchange="applyAutoRotate()">
+                    <label style="margin:0; color:#ffcc00; font-weight:bold;">Otomatik Dön (Aktif)</label>
+                </div>
+                <label>Hız (derece/saniye)</label>
+                <div class="range-row">
+                    <input type="range" id="ar-speed" min="1" max="30" value="5" oninput="document.getElementById('ar-speed-val').textContent=this.value+'°/s'; applyAutoRotate();">
+                    <span class="range-val" id="ar-speed-val">5°/s</span>
+                </div>
+                <div class="cb-row">
+                    <input type="checkbox" id="ar-autoscene" onchange="applyAutoRotate()">
+                    <label style="margin:0; color:#ffcc00; font-weight:bold;">Tam Turdan Sonra Sonraki Sahneye Geç</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sosyal Medya -->
+        <div id="social-panel" class="sub-panel collapsed">
+            <div class="sub-panel-header"><h4>Sosyal Medya</h4></div>
+            <div class="sub-panel-content">
+                <div id="social-list"></div>
+                <label>İkon Seç</label>
+                <select id="soc-icon"></select>
+                <label>Link (URL)</label>
+                <input type="text" id="soc-url" placeholder="https://instagram.com/...">
+                <button onclick="addSocialMedia()">Yeni Ekle</button>
+            </div>
+        </div>
+
+        <!-- Menü & Link Yönetimi -->
+        <div id="skin-menu-panel" class="sub-panel collapsed">
+            <div class="sub-panel-header"><h4>Menü & Link Yönetimi</h4></div>
+            <div class="sub-panel-content">
+                <div id="skin-menu-list"></div>
+                
+                <input type="hidden" id="skin-edit-id">
+                <label>Buton Metni</label>
+                <input type="text" id="skin-text" placeholder="Örn: Contact">
+                
+                <label>Eylem Tipi</label>
+                <select id="skin-type" onchange="skinTypeChanged()">
+                    <option value="link">Dış Link / URL (Yeni Sekme)</option>
+                    <option value="popup_text">Metin / HTML (Popup)</option>
+                    <option value="popup_iframe">Iframe / Embed Kodu (Popup)</option>
+                    <option value="popup_image">Görsel URL (Popup)</option>
+                </select>
+                
+                <div style="display:flex; gap: 10px; margin-top: 10px;">
+                    <div style="flex:1;">
+                        <label>Genişlik (px)</label>
+                        <input type="number" id="skin-width" placeholder="800">
+                    </div>
+                    <div style="flex:1;">
+                        <label>Yükseklik (px)</label>
+                        <input type="number" id="skin-height" placeholder="600">
+                    </div>
+                </div>
+                
+                <label id="skin-content-label" style="margin-top:10px;">İçerik / Link</label>
+                <textarea id="skin-content" rows="4" style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; background: #222; border: 1px solid #555; color: white; border-radius: 4px;" placeholder="https://..."></textarea>
+                
+                <div style="display:flex; gap:5px; margin-top:10px;">
+                    <button id="btn-save-skin" onclick="addOrUpdateSkinMenu()" style="flex:1;">Ekle / Kaydet</button>
+                    <button id="btn-cancel-skin" onclick="resetSkinForm()" style="flex:1; background:#888; display:none;">İptal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hotspot Listesi -->
+        <div id="hotspot-list-panel" class="sub-panel collapsed">
+            <div class="sub-panel-header"><h4>Bu Sahnedeki Hotspotlar</h4></div>
+            <div class="sub-panel-content">
+                <div id="hotspot-list-content"></div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!-- Hotspot Editörü -->
+<div id="editor-panel" class="editor-window">
+    <div class="panel-header"><h3 id="editor-title">Yeni Hotspot Ekle</h3></div>
+    <div class="panel-content">
+        <label>Türü</label>
+        <select id="hs-type" onchange="typeChanged()">
+            <option value="info">Bilgi Noktası (Info)</option>
+            <option value="scene">Sahne Geçişi (Scene)</option>
+            <option value="video">Popup Video (Modal)</option>
+        </select>
+        <label>Görünecek Metin</label>
+        <input type="text" id="hs-text" placeholder="Örn: Mutfağa Git, TV İzle...">
+        <div id="scene-target-group" style="display:none;">
+            <label>Hedef Sahne</label>
+            <select id="hs-target"></select>
+        </div>
+        <div id="video-url-group" style="display:none;">
+            <label>Video / YouTube URL</label>
+            <input type="text" id="hs-video" placeholder="https://youtube.com/watch?v=...">
+            <p class="help-text">YouTube linkleri otomatik embed formatına çevrilir.</p>
+        </div>
+        <label>Özel İkon</label>
+        <select id="hs-customicon">
+            <option value="">-- Standart İkonu Kullan --</option>
+        </select>
+        <input type="hidden" id="hs-pitch">
+        <input type="hidden" id="hs-yaw">
+        <input type="hidden" id="hs-edit-id">
+        <div id="btn-add-group">
+            <button onclick="addHotspot()">Ekle</button>
+            <button class="btn-cancel" onclick="closeEditor()">İptal</button>
+        </div>
+        <div id="btn-edit-group" style="display:none;">
+            <button onclick="updateHotspot()">Güncelle</button>
+            <button class="btn-danger" onclick="deleteHotspot()">Sil</button>
+            <button class="btn-cancel" onclick="closeEditor()">İptal</button>
+        </div>
+    </div>
+</div>
+
+<!-- Video Modal -->
+<div id="video-modal">
+    <div id="video-modal-content">
+        <div id="close-modal" onclick="closeVideoModal()">X</div>
+        <div id="video-container"></div>
+    </div>
+</div>
+
+<div id="social-container-preview"></div>
+
+<div id="scene-dropdown-container">
+        <button id="scene-dropdown-btn" onclick="var tb = document.getElementById('thumbnail-bar'); tb.style.display = (tb.style.display === 'none' || tb.style.display === '') ? 'block' : 'none';">
+            <span id="current-scene-title">Sahneler</span>
+            <span style="font-size: 12px; margin-left: auto;">&#9660;</span>
+        </button>
+        <div id="thumbnail-bar" style="display: none;"></div>
+    </div>
+
+
+<script>
+    var viewer;
+    var configData = null;
+    var currentScene = null;
+    var videoIcons = [];
+
+    /* ──────────────────────────────────────────────
+       AKORDEON PANELS
+    ────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ana Panel Başlığı (Kontrol Paneli)
+        var mainHeaders = document.querySelectorAll('.editor-window .panel-header');
+        mainHeaders.forEach(function(header) {
+            header.addEventListener('click', function(e) {
+                this.parentElement.classList.toggle('collapsed');
+            });
+        });
+
+        // Alt Paneller (Akordeon Mantığı)
+        var subHeaders = document.querySelectorAll('.sub-panel-header');
+        subHeaders.forEach(function(header) {
+            header.addEventListener('click', function(e) {
+                var currentPanel = this.parentElement;
+                var wasCollapsed = currentPanel.classList.contains('collapsed');
+                
+                // Hepsini kapat
+                document.querySelectorAll('.sub-panel').forEach(function(p) {
+                    p.classList.add('collapsed');
+                });
+                
+                // Eğer tıkladığımız zaten kapalıysa şimdi açalım (akordeon mantığı)
+                if (wasCollapsed) {
+                    currentPanel.classList.remove('collapsed');
+                }
+            });
+        });
+    });
+
+    /* ──────────────────────────────────────────────
+       ÖZEL İKON TOOLTIP FONKSİYONU
+       Pannellum'un sprite class'larını tamamen siler
+    ────────────────────────────────────────────── */
+    window.customIconTooltipFunc = function(hotSpotDiv, args) {
+        hotSpotDiv.classList.remove('pnlm-info', 'pnlm-scene', 'pnlm-sprite');
+        hotSpotDiv.classList.add('custom-icon-hs');
+        hotSpotDiv.innerHTML = ''; // Temizle
+        var img = document.createElement('img');
+        img.src = args;
+        img.style.cssText = 'display:block;width:100%;height:100%;cursor:pointer;';
+        hotSpotDiv.appendChild(img);
+    };
+
+    /* ──────────────────────────────────────────────
+       YARDIMCI FONKSİYONLAR
+    ────────────────────────────────────────────── */
+    function parseYouTubeUrl(url) {
+        if (!url) return url;
+        var m = url.match(/^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+        if (m && m[2].length === 11) return 'https://www.youtube.com/embed/' + m[2];
+        return url;
+    }
+
+    function generateId() { return 'hs_' + Math.random().toString(36).substr(2, 9); }
+
+    function cleanConfigForSave(config) {
+        var copy = JSON.parse(JSON.stringify(config));
+        for (var sid in copy.scenes) {
+            var sc = copy.scenes[sid];
+            if (sc.hotSpots) sc.hotSpots.forEach(function(hs) { delete hs.div; delete hs.cssClass; });
+        }
+        return copy;
+    }
+
+    function videoClickHandler(e, url) { openVideoModal(url); }
+
+    function findHotspotInConfig(id) {
+        if (!configData.scenes[currentScene] || !configData.scenes[currentScene].hotSpots) return null;
+        return configData.scenes[currentScene].hotSpots.find(function(h) { return h.id === id; });
+    }
+
+    /* ──────────────────────────────────────────────
+       AUTO-ROTATE
+    ────────────────────────────────────────────── */
+    var arInterval   = null;
+    var arTotalDeg   = 0;  // 360 tamamlandı mı takibi
+
+    function applyAutoRotate() {
+        var enabled    = document.getElementById('ar-enabled').checked;
+        var speed      = parseFloat(document.getElementById('ar-speed').value) || 5;
+        var autoScene  = document.getElementById('ar-autoscene').checked;
+
+        // Config'e kaydet (saveConfig() bunları da yazar)
+        if (!configData.customAutoRotate) configData.customAutoRotate = {};
+        configData.customAutoRotate.enabled   = enabled;
+        configData.customAutoRotate.speed     = speed;
+        configData.customAutoRotate.autoScene = autoScene;
+        delete configData.autoRotate;
+
+        stopAutoRotate();
+        if (enabled) startAutoRotate(speed, autoScene);
+    }
+
+    function startAutoRotate(speed, autoScene) {
+        arTotalDeg = 0;
+        var lastTime = Date.now();
+        arInterval = setInterval(function() {
+            if (!viewer) return;
+            var now  = Date.now();
+            var dt   = (now - lastTime) / 1000;
+            lastTime = now;
+            var step = speed * dt;
+
+            if (autoScene) {
+                arTotalDeg += step;
+                if (arTotalDeg >= 360) {
+                    arTotalDeg = 0;
+                    autoAdvanceScene();
+                    return;
+                }
+            }
+            if (!isNaN(step) && step < 10) {
+                var cy = viewer.getYaw();
+                if (!isNaN(cy)) {
+                    viewer.setYaw(cy + step, false);
+                }
+            }
+        }, 16);
+    }
+
+    function stopAutoRotate() {
+        if (arInterval) { clearInterval(arInterval); arInterval = null; }
+    }
+
+    function autoAdvanceScene() {
+        if (!configData) return;
+        var ids  = Object.keys(configData.scenes);
+        var idx  = ids.indexOf(currentScene);
+        var next = ids[(idx + 1) % ids.length];
+        viewer.loadScene(next);
+    }
+
+    function resetRotateCounter() { arTotalDeg = 0; }
+
+    /* ──────────────────────────────────────────────
+       İKONLARI YÜKLE
+    ────────────────────────────────────────────── */
+    fetch('/list_icons')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.status === 'success') {
+                var sel1 = document.getElementById('hs-customicon');
+                var sel2 = document.getElementById('soc-icon');
+                data.icons.forEach(function(icon) {
+                    if (icon.toLowerCase().includes('video')) videoIcons.push('icon/' + icon);
+                    var o1 = document.createElement('option'); o1.value = 'icon/' + icon; o1.textContent = icon; sel1.appendChild(o1);
+                    var o2 = document.createElement('option'); o2.value = 'icon/' + icon; o2.textContent = icon; sel2.appendChild(o2);
+                });
+            }
+        })
+        .catch(function() {});
+
+    /* ──────────────────────────────────────────────
+       CONFIG YÜKLE & VIEWER BAŞLAT
+    ────────────────────────────────────────────── */
+    fetch('config.json?t=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            configData = data;
+
+            // Sahne dropdown doldur
+            var targetSel = document.getElementById('hs-target');
+            for (var key in configData.scenes) {
+                var o = document.createElement('option');
+                o.value = key; o.textContent = configData.scenes[key].title || key;
+                targetSel.appendChild(o);
+            }
+
+            // Hotspot'lara ID + cssClass ata, fonksiyonları bağla
+            prepareConfigForViewer(configData);
+
+            viewer = pannellum.viewer('panorama', configData);
+
+            viewer.on('scenechange', function(sceneId) {
+                currentScene = sceneId;
+                resetRotateCounter();
+                refreshHotspotList();
+                updateThumbnails();
+            });
+            currentScene = configData.default.firstScene;
+
+            // Auto-rotate ayarlarını UI'a yansıt ve başlat
+            var arCfg = configData.customAutoRotate || {};
+            document.getElementById('ar-enabled').checked   = !!arCfg.enabled;
+            document.getElementById('ar-speed').value       = arCfg.speed || 5;
+            document.getElementById('ar-speed-val').textContent = (arCfg.speed || 5) + '°/s';
+            document.getElementById('ar-autoscene').checked = !!arCfg.autoScene;
+            if (arCfg.enabled) startAutoRotate(arCfg.speed || 5, !!arCfg.autoScene);
+
+            /* ── PANORAMAYA TIKLAMA → YENİ HOTSPOT ── */
+            viewer.on('mousedown', function(event) {
+                resetRotateCounter(); // elle döndürünce sayacı sıfırla
+                if (event.target && event.target.closest &&
+                    event.target.closest('.pnlm-hotspot, .editor-window, #video-modal, #social-container-preview')) return;
+                if (event.target && typeof event.target.className === 'string' &&
+                    event.target.className.indexOf('pnlm-hotspot') !== -1) return;
+
+                var sx = event.clientX, sy = event.clientY;
+                function onUp(ev) {
+                    document.removeEventListener('mouseup', onUp);
+                    // Sürükleme modu aktifken yeni hotspot editörü AÇILMAMALI
+                    if (typeof _dragging !== 'undefined' && _dragging) return;
+                    if (Math.abs(ev.clientX - sx) < 5 && Math.abs(ev.clientY - sy) < 5) {
+                        var coords = viewer.mouseEventToCoords(ev);
+                        if (coords) openNewEditor(coords[0], coords[1]);
+                    }
+                }
+                document.addEventListener('mouseup', onUp);
+            });
+
+            refreshHotspotList();
+            renderSocialMedia();
+            renderSkinMenu();
+            buildThumbnails();
+
+            /* ══════════════════════════════════════════════════════
+               HOTSPOT SÜRÜKLEME (Drag & Drop) – v3
+               ─────────────────────────────────────────────────────
+               • Capture-phase listener → Pannellum pan'ı engeller
+               • Canlı koordinat HUD → #panorama içinde absolute
+               • 4-basamak hassasiyet
+               • Editör form + liste senkronizasyonu
+            ══════════════════════════════════════════════════════ */
+            var _dragging = false; // global bayrak – diğer click handler'lar için
+
+            /* ── 1. Canlı Koordinat Göstergesi (HUD) ── */
+            var _hud = (function() {
+                var el = document.createElement('div');
+                el.id = 'drag-hud';
+                el.style.cssText =
+                    'display:none;' +
+                    'position:absolute;' +
+                    'bottom:20px;' +
+                    'left:50%;' +
+                    'transform:translateX(-50%);' +
+                    'background:rgba(0,0,0,0.7);' +
+                    'color:#ffffff;' +
+                    'padding:8px 20px;' +
+                    'border-radius:25px;' +
+                    'font-family:monospace;' +
+                    'font-size:14px;' +
+                    'z-index:9999;' +
+                    'pointer-events:none;' +
+                    'letter-spacing:0.5px;' +
+                    'backdrop-filter:blur(4px);' +
+                    '-webkit-backdrop-filter:blur(4px);' +
+                    'border:1px solid rgba(255,255,255,0.15);' +
+                    'box-shadow:0 4px 15px rgba(0,0,0,0.4);';
+                // Panorama konteynerine bağla (absolute konumlandırma için)
+                document.getElementById('panorama').appendChild(el);
+                return {
+                    show: function(pitch, yaw) {
+                        el.textContent = 'Pitch: ' + pitch.toFixed(4) + '  |  Yaw: ' + yaw.toFixed(4);
+                        el.style.display = 'block';
+                    },
+                    hide: function() { el.style.display = 'none'; }
+                };
+            })();
+
+            /* ── 2. Ana Sürükleme Dinleyicisi (Capture Phase) ── */
+            document.addEventListener('mousedown', function(e) {
+                if (e.button !== 0) return;                    // sadece sol tık
+                var hotspotEl = e.target.closest('.pnlm-hotspot');
+                if (!hotspotEl) return;
+
+                /* ── Hotspot ID'sini CSS class'ından bul ── */
+                var hsid = null;
+                var classes = (hotspotEl.className || '').split(/\s+/);
+                for (var ci = 0; ci < classes.length; ci++) {
+                    if (classes[ci].indexOf('hs_') === 0) { hsid = classes[ci]; break; }
+                }
+                if (!hsid) return;
+
+                /* ── Pannellum pan'ını ANINDA durdur ── */
+                e.stopImmediatePropagation();
+                e.preventDefault();
+
+                var startX = e.clientX, startY = e.clientY;
+                var isDragging = false;
+                var lastCoords = null;         // [pitch, yaw]
+                var indicator  = null;          // görsel sürükleme noktası
+
+                /* ── Görsel sürükleme göstergesi ── */
+                function createIndicator() {
+                    indicator = document.createElement('div');
+                    indicator.style.cssText =
+                        'position:fixed;width:24px;height:24px;' +
+                        'background:rgba(255,204,0,0.9);' +
+                        'border:2px solid #fff;border-radius:50%;' +
+                        'pointer-events:none;z-index:99999;' +
+                        'transform:translate(-50%,-50%);' +
+                        'box-shadow:0 2px 10px rgba(0,0,0,0.6);';
+                    document.body.appendChild(indicator);
+                }
+
+                /* ── mousemove: Sürükleme + koordinat dönüşümü ── */
+                function onMove(ev) {
+                    // 6 piksel eşik: gerçek sürükleme mi yoksa basit tık mı?
+                    if (!isDragging && (Math.abs(ev.clientX - startX) > 6 || Math.abs(ev.clientY - startY) > 6)) {
+                        isDragging = true;
+                        _dragging  = true;
+                        hotspotEl.style.cursor  = 'grabbing';
+                        hotspotEl.style.opacity = '0.35';
+                        createIndicator();
+                    }
+                    if (!isDragging) return;
+
+                    // Pannellum pan'ını her harekette engelle
+                    ev.stopImmediatePropagation();
+                    ev.preventDefault();
+
+                    // Sarı sürükleme göstergesini fareye yapıştır
+                    if (indicator) {
+                        indicator.style.left = ev.clientX + 'px';
+                        indicator.style.top  = ev.clientY + 'px';
+                    }
+
+                    // Pannellum mouseEventToCoords ile piksel→pitch/yaw dönüşümü
+                    var coords = null;
+                    try { coords = viewer.mouseEventToCoords(ev); } catch(err) {}
+                    if (coords) {
+                        lastCoords = coords;
+                        _hud.show(coords[0], coords[1]);
+                    }
+                }
+
+                /* ── mouseup: Bırakma + veri güncelleme ── */
+                function onUp(ev) {
+                    // Dinleyicileri temizle
+                    document.removeEventListener('mousemove', onMove, true);
+                    document.removeEventListener('mouseup',   onUp,   true);
+
+                    // Görsel temizlik
+                    if (indicator) { indicator.remove(); indicator = null; }
+                    hotspotEl.style.cursor  = '';
+                    hotspotEl.style.opacity = '';
+                    _hud.hide();
+
+                    if (isDragging) {
+                        // Sürükleme sonrası yanlışlıkla tetiklenen click'i yut
+                        var eatClick = function(eClick) {
+                            eClick.stopImmediatePropagation();
+                            eClick.preventDefault();
+                            hotspotEl.removeEventListener('click', eatClick, true);
+                        };
+                        hotspotEl.addEventListener('click', eatClick, true);
+                        setTimeout(function() {
+                            hotspotEl.removeEventListener('click', eatClick, true);
+                            _dragging = false;
+                        }, 100);
+
+                        if (lastCoords) {
+                            var hs = findHotspotInConfig(hsid);
+                            if (hs) {
+                                var newPitch = parseFloat(lastCoords[0].toFixed(4));
+                                var newYaw   = parseFloat(lastCoords[1].toFixed(4));
+
+                                /* A. configData'daki pitch/yaw'ı güncelle */
+                                hs.pitch = newPitch;
+                                hs.yaw   = newYaw;
+
+                                /* B. Pannellum renderer'dan kaldır + yeniden ekle */
+                                try { viewer.removeHotSpot(hs.id, currentScene); } catch(err) {}
+                                var hsClone = JSON.parse(JSON.stringify(hs));
+                                hsClone.cssClass = hs.id;
+                                if (hs.clickHandlerFunc)  { hsClone.clickHandlerFunc = hs.clickHandlerFunc; hsClone.clickHandlerArgs = hs.clickHandlerArgs; }
+                                if (hs.createTooltipFunc) { hsClone.createTooltipFunc = hs.createTooltipFunc; hsClone.createTooltipArgs = hs.createTooltipArgs; }
+                                viewer.addHotSpot(hsClone, currentScene);
+
+                                /* C. configData array'inden çıktıysa geri ekle */
+                                var arr = configData.scenes[currentScene].hotSpots;
+                                if (arr.findIndex(function(x) { return x.id === hs.id; }) === -1) arr.push(hs);
+
+                                /* D. Editör formu açıksa pitch/yaw inputlarını senkronize et */
+                                var editIdField = document.getElementById('hs-edit-id');
+                                if (editIdField && editIdField.value === hs.id) {
+                                    document.getElementById('hs-pitch').value = newPitch;
+                                    document.getElementById('hs-yaw').value   = newYaw;
+                                }
+
+                                /* E. Sol paneldeki hotspot listesindeki ilgili pitch/yaw inputlarını güncelle */
+                                var listPitchEl = document.getElementById('list-pitch-' + hs.id);
+                                var listYawEl   = document.getElementById('list-yaw-' + hs.id);
+                                if (listPitchEl) listPitchEl.value = newPitch.toFixed(4);
+                                if (listYawEl)   listYawEl.value   = newYaw.toFixed(4);
+                                console.info('[Sürükle] ' + hs.id + ' → Pitch:' + newPitch + ' Yaw:' + newYaw);
+                            }
+                        }
+                    } else {
+                        _dragging = false;
+                    }
+                }
+
+                // Capture phase: Pannellum'un bubble listener'larından ÖNCE biz yakala
+                document.addEventListener('mousemove', onMove, true);
+                document.addEventListener('mouseup',   onUp,   true);
+            }, true);   /* ← capture phase mousedown */
+        })
+        .catch(function(err) {
+            alert('config.json yüklenemedi! Hata: ' + err.message);
+        });
+
+    /* ──────────────────────────────────────────────
+       CONFIG HAZIRLA (viewer için)
+    ────────────────────────────────────────────── */
+    function prepareConfigForViewer(config) {
+        for (var sid in config.scenes) {
+            var sc = config.scenes[sid];
+            if (!sc.hotSpots) continue;
+            sc.hotSpots.forEach(function(hs) {
+                if (!hs.id) hs.id = generateId();
+                delete hs.div;
+                hs.cssClass = hs.id;   // DOM class'ından ID bulunabilsin
+                if (hs.popupVideo) {
+                    hs.clickHandlerFunc = videoClickHandler;
+                    hs.clickHandlerArgs = hs.popupVideo;
+                }
+                if (hs.customIconImg) {
+                    hs.createTooltipFunc = window.customIconTooltipFunc;
+                    hs.createTooltipArgs = hs.customIconImg;
+                }
+            });
+        }
+    }
+
+    /* ──────────────────────────────────────────────
+       HOTSPOT LİSTESİ
+    ────────────────────────────────────────────── */
+    function refreshHotspotList() {
+        var cont = document.getElementById('hotspot-list-content');
+        cont.innerHTML = '';
+        if (!configData || !configData.scenes[currentScene] || !configData.scenes[currentScene].hotSpots) {
+            cont.innerHTML = '<p class="help-text">Bu sahnede hotspot yok.</p>';
+            return;
+        }
+        configData.scenes[currentScene].hotSpots.forEach(function(hs) {
+            var div = document.createElement('div');
+            div.className = 'hs-list-item';
+            div.style.flexWrap = 'wrap';
+            var lbl = hs.popupVideo ? '🎬' : (hs.type === 'scene' ? '🚪' : 'ℹ️');
+
+            /* Satır 1: İsim + Butonlar */
+            var row1 = document.createElement('div');
+            row1.style.cssText = 'display:flex;align-items:center;width:100%;justify-content:space-between;';
+            row1.innerHTML = '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + lbl + ' ' + (hs.text || '(İsimsiz)') + '</span>' +
+                '<button class="btn-sm" onclick="editHotspotById(\'' + hs.id + '\')">✏️</button>' +
+                '<button class="btn-sm btn-danger" onclick="deleteHotspotById(\'' + hs.id + '\')">🗑️</button>';
+            div.appendChild(row1);
+
+            /* Satır 2: Pitch / Yaw koordinat inputları */
+            var row2 = document.createElement('div');
+            row2.style.cssText = 'display:flex;gap:6px;width:100%;margin-top:4px;';
+            row2.innerHTML =
+                '<label style="margin:0;font-size:10px;color:#aaa;white-space:nowrap;line-height:26px;">P:</label>' +
+                '<input type="text" id="list-pitch-' + hs.id + '" value="' + (hs.pitch != null ? parseFloat(hs.pitch).toFixed(4) : '') + '" ' +
+                    'style="flex:1;padding:3px 5px;font-size:11px;background:#1a1a1a;border:1px solid #444;color:#ffcc00;border-radius:3px;margin:0;" ' +
+                    'onchange="updateHotspotCoordFromList(\'' + hs.id + '\')">' +
+                '<label style="margin:0;font-size:10px;color:#aaa;white-space:nowrap;line-height:26px;">Y:</label>' +
+                '<input type="text" id="list-yaw-' + hs.id + '" value="' + (hs.yaw != null ? parseFloat(hs.yaw).toFixed(4) : '') + '" ' +
+                    'style="flex:1;padding:3px 5px;font-size:11px;background:#1a1a1a;border:1px solid #444;color:#ffcc00;border-radius:3px;margin:0;" ' +
+                    'onchange="updateHotspotCoordFromList(\'' + hs.id + '\')">';
+            div.appendChild(row2);
+
+            cont.appendChild(div);
+        });
+    }
+
+    /* Listeden pitch/yaw manuel düzenlendiğinde configData + Pannellum'u güncelle */
+    window.updateHotspotCoordFromList = function(hsid) {
+        var pitchInput = document.getElementById('list-pitch-' + hsid);
+        var yawInput   = document.getElementById('list-yaw-' + hsid);
+        if (!pitchInput || !yawInput) return;
+        var newPitch = parseFloat(pitchInput.value);
+        var newYaw   = parseFloat(yawInput.value);
+        if (isNaN(newPitch) || isNaN(newYaw)) return;
+
+        var hs = findHotspotInConfig(hsid);
+        if (!hs) return;
+        hs.pitch = newPitch;
+        hs.yaw   = newYaw;
+
+        try { viewer.removeHotSpot(hs.id, currentScene); } catch(e) {}
+        var hsClone = JSON.parse(JSON.stringify(hs));
+        hsClone.cssClass = hs.id;
+        if (hs.clickHandlerFunc)  { hsClone.clickHandlerFunc = hs.clickHandlerFunc; hsClone.clickHandlerArgs = hs.clickHandlerArgs; }
+        if (hs.createTooltipFunc) { hsClone.createTooltipFunc = hs.createTooltipFunc; hsClone.createTooltipArgs = hs.createTooltipArgs; }
+        viewer.addHotSpot(hsClone, currentScene);
+
+        /* Editör formu açıksa senkronize et */
+        var editIdField = document.getElementById('hs-edit-id');
+        if (editIdField && editIdField.value === hs.id) {
+            document.getElementById('hs-pitch').value = newPitch;
+            document.getElementById('hs-yaw').value   = newYaw;
+        }
+    };
+
+    /* ──────────────────────────────────────────────
+       FORM / EDITOR
+    ────────────────────────────────────────────── */
+    function typeChanged() {
+        var t = document.getElementById('hs-type').value;
+        document.getElementById('scene-target-group').style.display = t === 'scene' ? 'block' : 'none';
+        document.getElementById('video-url-group').style.display   = t === 'video'  ? 'block' : 'none';
+    }
+
+    function openNewEditor(pitch, yaw) {
+        document.getElementById('editor-title').textContent = 'Yeni Hotspot Ekle';
+        document.getElementById('btn-add-group').style.display  = 'block';
+        document.getElementById('btn-edit-group').style.display = 'none';
+        document.getElementById('hs-edit-id').value = '';
+        document.getElementById('hs-pitch').value   = pitch;
+        document.getElementById('hs-yaw').value     = yaw;
+        document.getElementById('hs-type').value    = 'info';
+        document.getElementById('hs-text').value    = '';
+        document.getElementById('hs-video').value   = '';
+        document.getElementById('hs-customicon').value = '';
+        
+        var editorPanel = document.getElementById('editor-panel');
+        editorPanel.style.display = 'flex';
+        editorPanel.classList.remove('collapsed');
+        typeChanged();
+    }
+
+    function openEditEditor(hs) {
+        document.getElementById('editor-title').textContent = 'Hotspot Düzenle';
+        document.getElementById('btn-add-group').style.display  = 'none';
+        document.getElementById('btn-edit-group').style.display = 'block';
+        document.getElementById('hs-edit-id').value    = hs.id;
+        document.getElementById('hs-pitch').value      = hs.pitch;
+        document.getElementById('hs-yaw').value        = hs.yaw;
+        document.getElementById('hs-type').value       = hs.popupVideo ? 'video' : hs.type;
+        document.getElementById('hs-text').value       = hs.text || '';
+        document.getElementById('hs-video').value      = hs.popupVideo || '';
+        document.getElementById('hs-customicon').value = hs.customIconImg || '';
+        if (hs.sceneId) document.getElementById('hs-target').value = hs.sceneId;
+        
+        var editorPanel = document.getElementById('editor-panel');
+        editorPanel.style.display = 'flex';
+        editorPanel.classList.remove('collapsed');
+        typeChanged();
+    }
+
+    function closeEditor() { document.getElementById('editor-panel').style.display = 'none'; }
+
+    window.editHotspotById = function(id) { var hs = findHotspotInConfig(id); if (hs) openEditEditor(hs); };
+    window.deleteHotspotById = function(id) {
+        if (!confirm('Bu hotspot silinecek. Emin misiniz?')) return;
+        try { viewer.removeHotSpot(id, currentScene); } catch(e) {}
+        refreshHotspotList();
+    };
+
+    /* ──────────────────────────────────────────────
+       HOTSPOT EKLE / GÜNCELLE / SİL
+    ────────────────────────────────────────────── */
+    function addHotspot() {
+        var type       = document.getElementById('hs-type').value;
+        var customIcon = document.getElementById('hs-customicon').value;
+
+        var hs = {
+            id:    generateId(),
+            pitch: parseFloat(document.getElementById('hs-pitch').value),
+            yaw:   parseFloat(document.getElementById('hs-yaw').value),
+            type:  type === 'video' ? 'info' : type,
+            text:  document.getElementById('hs-text').value
+        };
+        hs.cssClass = hs.id;   // sürükleme için
+
+        if (type === 'scene') {
+            hs.sceneId = document.getElementById('hs-target').value;
+        } else if (type === 'video') {
+            hs.popupVideo          = parseYouTubeUrl(document.getElementById('hs-video').value);
+            hs.clickHandlerFunc    = videoClickHandler;
+            hs.clickHandlerArgs    = hs.popupVideo;
+        }
+        if (customIcon) {
+            hs.customIconImg       = customIcon;
+            hs.createTooltipFunc   = window.customIconTooltipFunc;
+            hs.createTooltipArgs   = customIcon;
+        }
+
+        if (!configData.scenes[currentScene].hotSpots) configData.scenes[currentScene].hotSpots = [];
+        viewer.addHotSpot(hs, currentScene);
+        closeEditor();
+        refreshHotspotList();
+    }
+
+    function updateHotspot() {
+        var hsid = document.getElementById('hs-edit-id').value;
+        var hs   = findHotspotInConfig(hsid);
+        if (!hs) return;
+
+        var ptype = document.getElementById('hs-type').value;
+        hs.type  = ptype === 'video' ? 'info' : ptype;
+        hs.text  = document.getElementById('hs-text').value;
+        hs.pitch = parseFloat(document.getElementById('hs-pitch').value);
+        hs.yaw   = parseFloat(document.getElementById('hs-yaw').value);
+
+        delete hs.sceneId; delete hs.popupVideo;
+        delete hs.clickHandlerFunc; delete hs.clickHandlerArgs;
+        delete hs.customIconImg; delete hs.createTooltipFunc; delete hs.createTooltipArgs;
+
+        if (ptype === 'scene') {
+            hs.sceneId = document.getElementById('hs-target').value;
+        } else if (ptype === 'video') {
+            hs.popupVideo       = parseYouTubeUrl(document.getElementById('hs-video').value);
+            hs.clickHandlerFunc = videoClickHandler;
+            hs.clickHandlerArgs = hs.popupVideo;
+        }
+        var ci = document.getElementById('hs-customicon').value;
+        if (ci) {
+            hs.customIconImg     = ci;
+            hs.createTooltipFunc = window.customIconTooltipFunc;
+            hs.createTooltipArgs = ci;
+        }
+
+        try { viewer.removeHotSpot(hs.id, currentScene); } catch(e) {}
+        delete hs.div;
+        hs.cssClass = hs.id;
+        viewer.addHotSpot(hs, currentScene);
+        closeEditor();
+        refreshHotspotList();
+    }
+
+    function deleteHotspot() {
+        var id = document.getElementById('hs-edit-id').value;
+        try { viewer.removeHotSpot(id, currentScene); } catch(e) {}
+        closeEditor();
+        refreshHotspotList();
+    }
+
+    /* ──────────────────────────────────────────────
+       SOSYAL MEDYA
+    ────────────────────────────────────────────── */
+    function renderSocialMedia() {
+        var listEl    = document.getElementById('social-list');
+        var previewEl = document.getElementById('social-container-preview');
+        listEl.innerHTML = ''; previewEl.innerHTML = '';
+        if (configData && configData.socialMedia) {
+            configData.socialMedia.forEach(function(soc, i) {
+                var d = document.createElement('div'); d.className = 'social-item';
+                d.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><img src="' + soc.icon + '" width="25"><span style="font-size:10px;">' + soc.url + '</span></div>' +
+                    '<button class="btn-sm btn-danger" onclick="removeSocialMedia(' + i + ')">Sil</button>';
+                listEl.appendChild(d);
+                var a = document.createElement('a'); a.href = soc.url; a.target = '_blank';
+                var img = document.createElement('img'); img.src = soc.icon;
+                a.appendChild(img); previewEl.appendChild(a);
+            });
+        }
+    }
+
+    function addSocialMedia() {
+        var icon = document.getElementById('soc-icon').value;
+        var url  = document.getElementById('soc-url').value;
+        if (!icon || !url) return alert('Lütfen ikon seçin ve URL girin.');
+        if (!configData.socialMedia) configData.socialMedia = [];
+        configData.socialMedia.push({ icon: icon, url: url });
+        document.getElementById('soc-url').value = '';
+        renderSocialMedia();
+            buildThumbnails();
+    }
+
+    window.removeSocialMedia = function(i) { configData.socialMedia.splice(i, 1); renderSocialMedia();
+            buildThumbnails(); };
+
+    /* ──────────────────────────────────────────────
+       MENÜ / SKİN YÖNETİMİ
+    ────────────────────────────────────────────── */
+    function renderSkinMenu() {
+        if (!configData.ui_elements) configData.ui_elements = [];
+
+        /* ── A. Sol Panel Listesini Güncelle ── */
+        var listContainer = document.getElementById('skin-menu-list');
+        listContainer.innerHTML = '';
+        configData.ui_elements.forEach(function(item, i) {
+            var div = document.createElement('div');
+            div.className = 'hs-list-item';
+            div.style.flexWrap = 'wrap';
+
+            /* Satır 1: İsim + düzenle/sil */
+            var row1 = document.createElement('div');
+            row1.style.cssText = 'display:flex;align-items:center;width:100%;justify-content:space-between;';
+            row1.innerHTML = '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🔗 ' + (item.text || '(İsimsiz)') + '</span>' +
+                '<button class="btn-sm" onclick="editSkinItem(\'' + item.id + '\')" title="Düzenle">✏️</button>' +
+                '<button class="btn-sm btn-danger" onclick="removeSkinMenuById(\'' + item.id + '\')" title="Sil">🗑️</button>';
+            div.appendChild(row1);
+
+            /* Satır 2: Konum bilgisi (Top / Left) */
+            var row2 = document.createElement('div');
+            row2.className = 'skin-list-pos';
+            row2.innerHTML =
+                '<label>T:</label>' +
+                '<input type="text" id="skin-pos-top-' + item.id + '" value="' + (item.css_top || '20') + '" ' +
+                    'onchange="updateSkinPosFromList(\'' + item.id + '\', this.value, null)">' +
+                '<label>L:</label>' +
+                '<input type="text" id="skin-pos-left-' + item.id + '" value="' + (item.css_left || '') + '" ' +
+                    'placeholder="auto" onchange="updateSkinPosFromList(\'' + item.id + '\', null, this.value)">';
+            div.appendChild(row2);
+
+            listContainer.appendChild(div);
+        });
+
+        /* ── B. Canlı Önizleme Butonlarını Oluştur ── */
+        var previewContainer = document.getElementById('skin-menu-container');
+        previewContainer.innerHTML = '';
+        configData.ui_elements.forEach(function(item, i) {
+            var btn = document.createElement('div');
+            btn.className = 'skin-btn';
+            btn.id = 'skin-preview-' + item.id;
+            btn.textContent = item.text;
+            btn.setAttribute('data-tooltip', item.text);
+            btn.setAttribute('data-skin-id', item.id);
+
+            /* Konum: css_top ve css_left varsa uygula, yoksa varsayılan grid */
+            if (item.css_top != null || item.css_left != null) {
+                btn.style.top  = (item.css_top  != null ? item.css_top + 'px'  : '20px');
+                btn.style.left = (item.css_left != null ? item.css_left + 'px' : 'auto');
+                if (item.css_left == null) btn.style.right = (20 + i * 0) + 'px';
+            } else {
+                /* Varsayılan: sağ üst köşe, yan yana dizilim */
+                btn.style.top   = '20px';
+                btn.style.right = (20 + i * 150) + 'px';
+            }
+
+            /* Tıklama: modal aç (sürükleme değilse) */
+            btn.addEventListener('click', function(e) {
+                if (btn.classList.contains('dragging')) return;
+                openSkinModal(item);
+            });
+
+            previewContainer.appendChild(btn);
+        });
+
+        /* ── C. Sürükleme dinleyicilerini bağla ── */
+        initSkinBtnDrag();
+    }
+
+    /* Skin Modal aç (editor tarafı) */
+    function openSkinModal(el) {
+        var body = document.getElementById('skin-modal-body');
+        body.innerHTML = '';
+        var modalContent = document.getElementById('skin-modal-content');
+        var w = el.width  || 800;
+        var h = el.height || 600;
+        modalContent.style.maxWidth  = w + 'px';
+        modalContent.style.minHeight = h + 'px';
+
+        if (el.type === 'link') {
+            window.open(el.content, '_blank');
+            return;
+        } else if (el.type === 'popup_iframe') {
+            body.innerHTML = el.content;
+            body.style.padding = '0';
+        } else if (el.type === 'popup_image') {
+            body.innerHTML = '<img src="' + el.content + '" style="max-width:100%;border-radius:8px;">';
+            body.style.padding = '30px';
+        } else {
+            body.innerHTML = el.content;
+            body.style.padding = '30px';
+        }
+        document.getElementById('skin-modal').style.display = 'flex';
+    }
+
+    window.addSkinMenu = function() {
+        var text = document.getElementById('skin-text').value.trim();
+        var type = document.getElementById('skin-type').value;
+        var content = document.getElementById('skin-content').value.trim();
+        if (!text || !content) return alert("Buton metni ve İçerik boş olamaz!");
+        
+        if (!configData.ui_elements) configData.ui_elements = [];
+        configData.ui_elements.push({ id: 'menu_' + Date.now(), text: text, type: type, content: content });
+        
+        document.getElementById('skin-text').value = '';
+        document.getElementById('skin-content').value = '';
+        renderSkinMenu();
+    };
+
+    window.removeSkinMenu = function(i) {
+        configData.ui_elements.splice(i, 1);
+        renderSkinMenu();
+    };
+
+    window.removeSkinMenuById = function(id) {
+        if (!configData.ui_elements) return;
+        if (!confirm('Bu menü öğesi silinecek. Emin misiniz?')) return;
+        configData.ui_elements = configData.ui_elements.filter(function(el) { return el.id !== id; });
+        renderSkinMenu();
+    };
+
+    window.editSkinItem = function(id) {
+        var item = configData.ui_elements.find(function(el) { return el.id === id; });
+        if (!item) return;
+        document.getElementById('skin-edit-id').value = item.id;
+        document.getElementById('skin-text').value    = item.text || '';
+        document.getElementById('skin-type').value    = item.type || 'link';
+        document.getElementById('skin-content').value = item.content || '';
+        document.getElementById('skin-width').value   = item.width || '';
+        document.getElementById('skin-height').value  = item.height || '';
+        document.getElementById('btn-cancel-skin').style.display = 'inline-block';
+        document.getElementById('btn-save-skin').textContent = 'Güncelle';
+        skinTypeChanged();
+    };
+
+    /* Listeden konum düzenlendiğinde */
+    window.updateSkinPosFromList = function(id, newTop, newLeft) {
+        var item = configData.ui_elements.find(function(el) { return el.id === id; });
+        if (!item) return;
+        if (newTop !== null)  item.css_top  = parseInt(newTop)  || 0;
+        if (newLeft !== null) item.css_left = parseInt(newLeft) || 0;
+        /* Canlı önizlemeyi güncelle */
+        var btnEl = document.getElementById('skin-preview-' + id);
+        if (btnEl) {
+            if (newTop !== null)  btnEl.style.top  = item.css_top + 'px';
+            if (newLeft !== null) { btnEl.style.left = item.css_left + 'px'; btnEl.style.right = 'auto'; }
+        }
+    };
+
+    /* ══════════════════════════════════════════════════════
+       SKİN BUTON SÜRÜKLEME (Drag & Drop)
+    ══════════════════════════════════════════════════════ */
+    function initSkinBtnDrag() {
+        var container = document.getElementById('skin-menu-container');
+        if (!container) return;
+        var btns = container.querySelectorAll('.skin-btn');
+        btns.forEach(function(btn) {
+            btn.addEventListener('mousedown', skinBtnMouseDown);
+        });
+    }
+
+    function skinBtnMouseDown(e) {
+        if (e.button !== 0) return;
+        var btn = e.currentTarget;
+        var skinId = btn.getAttribute('data-skin-id');
+        if (!skinId) return;
+
+        e.stopPropagation();
+        e.preventDefault();
+
+        var startX = e.clientX, startY = e.clientY;
+        var rect = btn.getBoundingClientRect();
+        var offsetX = e.clientX - rect.left;
+        var offsetY = e.clientY - rect.top;
+        var isDragging = false;
+
+        function onMove(ev) {
+            if (!isDragging && (Math.abs(ev.clientX - startX) > 5 || Math.abs(ev.clientY - startY) > 5)) {
+                isDragging = true;
+                btn.classList.add('dragging');
+            }
+            if (!isDragging) return;
+            ev.stopPropagation();
+            ev.preventDefault();
+
+            var newLeft = ev.clientX - offsetX;
+            var newTop  = ev.clientY - offsetY;
+            btn.style.left  = newLeft + 'px';
+            btn.style.top   = newTop  + 'px';
+            btn.style.right = 'auto';
+
+            /* Sol panel koordinat inputlarını canlı güncelle */
+            var topInput  = document.getElementById('skin-pos-top-'  + skinId);
+            var leftInput = document.getElementById('skin-pos-left-' + skinId);
+            if (topInput)  topInput.value  = Math.round(newTop);
+            if (leftInput) leftInput.value = Math.round(newLeft);
+        }
+
+        function onUp(ev) {
+            document.removeEventListener('mousemove', onMove, true);
+            document.removeEventListener('mouseup',   onUp,   true);
+
+            if (isDragging) {
+                var finalLeft = parseInt(btn.style.left) || 0;
+                var finalTop  = parseInt(btn.style.top)  || 0;
+
+                /* configData'ya kalıcı kaydet */
+                var item = configData.ui_elements.find(function(el) { return el.id === skinId; });
+                if (item) {
+                    item.css_top  = finalTop;
+                    item.css_left = finalLeft;
+                }
+
+                /* Click olayını yut */
+                setTimeout(function() { btn.classList.remove('dragging'); }, 80);
+                console.info('[Skin Sürükle] ' + skinId + ' → Top:' + finalTop + ' Left:' + finalLeft);
+            } else {
+                btn.classList.remove('dragging');
+            }
+        }
+
+        document.addEventListener('mousemove', onMove, true);
+        document.addEventListener('mouseup',   onUp,   true);
+    }
+
+    /* ──────────────────────────────────────────────
+       SKİN MENU EK FONKSİYONLAR
+    ────────────────────────────────────────────── */
+    window.addOrUpdateSkinMenu = function() {
+        var editId  = document.getElementById('skin-edit-id').value;
+        var text    = document.getElementById('skin-text').value.trim();
+        var type    = document.getElementById('skin-type').value;
+        var content = document.getElementById('skin-content').value.trim();
+        var width   = parseInt(document.getElementById('skin-width').value) || 800;
+        var height  = parseInt(document.getElementById('skin-height').value) || 600;
+        if (!text || !content) return alert('Buton metni ve İçerik boş olamaz!');
+        if (!configData.ui_elements) configData.ui_elements = [];
+
+        if (editId) {
+            /* Güncelleme modu */
+            var item = configData.ui_elements.find(function(el) { return el.id === editId; });
+            if (item) {
+                item.text = text; item.type = type; item.content = content;
+                item.width = width; item.height = height;
+            }
+        } else {
+            /* Yeni ekleme */
+            configData.ui_elements.push({ id: 'menu_' + Date.now(), text: text, type: type, content: content, width: width, height: height });
+        }
+        resetSkinForm();
+        renderSkinMenu();
+    };
+
+    window.skinTypeChanged = function() {
+        var type = document.getElementById('skin-type').value;
+        var label = document.getElementById('skin-content-label');
+        if (type === 'link')          label.textContent = 'URL (Dış Link)';
+        else if (type === 'popup_text')    label.textContent = 'HTML / Metin İçeriği';
+        else if (type === 'popup_iframe')  label.textContent = 'Iframe / Embed Kodu';
+        else if (type === 'popup_image')   label.textContent = 'Görsel URL';
+    };
+
+    window.resetSkinForm = function() {
+        document.getElementById('skin-edit-id').value = '';
+        document.getElementById('skin-text').value = '';
+        document.getElementById('skin-content').value = '';
+        document.getElementById('skin-width').value = '';
+        document.getElementById('skin-height').value = '';
+        document.getElementById('skin-type').value = 'link';
+        document.getElementById('btn-cancel-skin').style.display = 'none';
+        document.getElementById('btn-save-skin').textContent = 'Ekle / Kaydet';
+        skinTypeChanged();
+    };
+
+    window.closeSkinModal = function() {
+        document.getElementById('skin-modal').style.display = 'none';
+        document.getElementById('skin-modal-body').innerHTML = '';
+    };
+
+    /* ──────────────────────────────────────────────
+       KAYDET
+    ────────────────────────────────────────────── */
+    function saveConfig() {
+        // Auto-rotate ayarlarını config'e yaz
+        configData.customAutoRotate = {
+            enabled:   document.getElementById('ar-enabled').checked,
+            speed:     parseFloat(document.getElementById('ar-speed').value) || 5,
+            autoScene: document.getElementById('ar-autoscene').checked
+        };
+        delete configData.autoRotate;
+
+        // Pannellum'un güncel state'inden koordinatları garantiye alalım
+        try {
+            var vConfig = viewer.getConfig();
+            for (var sid in configData.scenes) {
+                if (vConfig.scenes && vConfig.scenes[sid] && vConfig.scenes[sid].hotSpots) {
+                    var vHotspots = vConfig.scenes[sid].hotSpots;
+                    var cHotspots = configData.scenes[sid].hotSpots || [];
+                    cHotspots.forEach(function(chs) {
+                        var vhs = vHotspots.find(function(v) { return v.id === chs.id; });
+                        if (vhs) {
+                            chs.pitch = vhs.pitch;
+                            chs.yaw = vhs.yaw;
+                        }
+                    });
+                }
+            }
+        } catch(e) { console.warn("Pannellum config eşitlenemedi", e); }
+
+        var copy = cleanConfigForSave(configData);
+        fetch('/save_config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(copy)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            if (d.status === 'success') alert('✅ Başarıyla Kaydedildi!');
+            else alert('Hata: ' + d.message);
+        })
+        .catch(function() { alert('Sunucuya ulaşılamadı!'); });
+    }
+
+    /* ──────────────────────────────────────────────
+       VİDEO MODAL
+    ────────────────────────────────────────────── */
+    window.openVideoModal = function(url) {
+        url = parseYouTubeUrl(url);
+        var cont = document.getElementById('video-container');
+        cont.innerHTML = '';
+        var ext = url.split('.').pop().toLowerCase();
+        if (ext === 'mp4' || ext === 'webm' || ext === 'ogg') {
+            var v = document.createElement('video');
+            v.src = url; v.controls = true; v.autoplay = true;
+            v.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;';
+            cont.appendChild(v);
+        } else {
+            var sep = url.indexOf('?') !== -1 ? '&' : '?';
+            cont.innerHTML = '<iframe src="' + url + sep + 'autoplay=1&mute=0" allow="autoplay;fullscreen;accelerometer;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:8px;"></iframe>';
+        }
+        document.getElementById('video-modal').style.display = 'flex';
+    };
+
+    window.closeVideoModal = function() {
+        document.getElementById('video-container').innerHTML = '';
+        document.getElementById('video-modal').style.display = 'none';
+    };
+
+    /* ──────────────────────────────────────────────
+       PANEL SÜRÜKLEME
+    ────────────────────────────────────────────── */
+    document.querySelectorAll('.editor-window').forEach(function(panel) {
+        var hdr = panel.querySelector('.panel-header');
+        var drag = false, ox, oy;
+        hdr.addEventListener('mousedown', function(e) {
+            drag = true;
+            ox = e.clientX - panel.getBoundingClientRect().left;
+            oy = e.clientY - panel.getBoundingClientRect().top;
+            e.stopPropagation();
+        });
+        document.addEventListener('mousemove', function(e) {
+            if (drag) { panel.style.left = (e.clientX - ox) + 'px'; panel.style.top = (e.clientY - oy) + 'px'; panel.style.right = 'auto'; panel.style.bottom = 'auto'; }
+        });
+        document.addEventListener('mouseup', function() { drag = false; });
+    });
+
+    function buildThumbnails() {
+        var tb = document.getElementById('thumbnail-bar');
+        tb.innerHTML = '';
+        for (var sid in configData.scenes) {
+            var sc = configData.scenes[sid];
+            var item = document.createElement('div');
+            item.className = 'thumb-item';
+            item.id = 'thumb-' + sid;
+            
+            var imgPath = sc.panorama || '';
+            if (imgPath.indexOf('jpeg/') === 0) {
+                imgPath = imgPath.replace('jpeg/', 'jpeg/preview/');
+            }
+            var imgHtml = imgPath ? '<img src="' + imgPath + '" loading="lazy" alt="thumb">' : '';
+            
+            item.innerHTML = imgHtml + '<span>' + (sc.title || sid) + '</span>';
+            
+            item.onclick = (function(id) {
+                return function() {
+                    viewer.loadScene(id);
+                    document.getElementById('thumbnail-bar').style.display = 'none';
+                };
+            })(sid);
+            tb.appendChild(item);
+        }
+        updateThumbnails();
+    }
+    
+    function updateThumbnails() {
+        var current = viewer.getScene();
+        var items = document.getElementsByClassName('thumb-item');
+        for(var i=0; i<items.length; i++) {
+            items[i].classList.remove('active');
+        }
+        var activeItem = document.getElementById('thumb-' + current);
+        if (activeItem) {
+            activeItem.classList.add('active');
+            activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            var btnTitle = document.getElementById('current-scene-title');
+            if (btnTitle && configData.scenes[current]) {
+                btnTitle.textContent = configData.scenes[current].title || current;
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Temporary and backup files
+*.kate-swp
+* - okuma.md
+* - okuma
+
+# Large media & sample asset directories (GitHub max file limit 100MB)
+# Remove lines below if you explicitly want to track these image/sample folders:
+jpeg/
+3d vista ornek/
+skin ornek/
+ornek 1/
