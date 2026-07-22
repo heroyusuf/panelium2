@@ -1,0 +1,878 @@
+{
+    "default": {
+        "firstScene": "IMG_0491-Pano",
+        "sceneFadeDuration": 1000,
+        "autoLoad": true,
+        "hotSpotDebug": true
+    },
+    "scenes": {
+        "IMG_0491-Pano": {
+            "title": "IMG_0491-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0491-Pano.jpg",
+            "hotSpots": [
+                {
+                    "id": "hs_wu84b91oi",
+                    "pitch": 5.353302670737563,
+                    "yaw": 1.2089889402603444,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_0550-Pano",
+                    "customIconImg": "icon/menu_button.png",
+                    "createTooltipArgs": "icon/menu_button.png"
+                },
+                {
+                    "id": "hs_mn22ywuto",
+                    "pitch": 2.3687,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "ss",
+                    "popupVideo": "https://www.youtube.com/embed/NPoMVNUf9yA",
+                    "clickHandlerArgs": "https://www.youtube.com/embed/NPoMVNUf9yA",
+                    "customIconImg": "icon/video_play.png",
+                    "createTooltipArgs": "icon/video_play.png"
+                },
+                {
+                    "id": "hs_cvbl1s3q5",
+                    "pitch": -4.90798469310276,
+                    "yaw": 0.9173499056659855,
+                    "type": "scene",
+                    "text": "sd",
+                    "sceneId": "IMG_0846-Pano",
+                    "customIconImg": "icon/audio_on.png",
+                    "createTooltipArgs": "icon/audio_on.png"
+                }
+            ]
+        },
+        "IMG_0550-Pano": {
+            "title": "IMG_0550-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0550-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0626-Pano": {
+            "title": "IMG_0626-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0626-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0665-Pano": {
+            "title": "IMG_0665-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0665-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0700-Pano": {
+            "title": "IMG_0700-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0700-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0739-Pano": {
+            "title": "IMG_0739-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0739-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0809-Pano": {
+            "title": "IMG_0809-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0809-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0845-Pano": {
+            "title": "IMG_0845-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0845-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0846-Pano": {
+            "title": "IMG_0846-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0846-Pano.jpg",
+            "hotSpots": []
+        },
+        "IMG_0894-Pano": {
+            "title": "IMG_0894-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0894-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_0846-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_axlqp1buu"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_0939-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_b1t9h3lew"
+                }
+            ]
+        },
+        "IMG_0939-Pano": {
+            "title": "IMG_0939-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0939-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_0894-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_1pt55wedb"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_0978-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_h61cv1f3w"
+                }
+            ]
+        },
+        "IMG_0978-Pano": {
+            "title": "IMG_0978-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_0978-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_0939-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_gbcxyqjmj"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1029-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_xmy3h7fl4"
+                }
+            ]
+        },
+        "IMG_1029-Pano": {
+            "title": "IMG_1029-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1029-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_0978-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_pkhrgt4qg"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1082-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_qvp8xom7e"
+                }
+            ]
+        },
+        "IMG_1082-Pano": {
+            "title": "IMG_1082-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1082-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1029-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_pmsou7o0c"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1156-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_j4zbm56gi"
+                }
+            ]
+        },
+        "IMG_1156-Pano": {
+            "title": "IMG_1156-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1156-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1082-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_626lo19ls"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1208-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_vylmtdeg6"
+                }
+            ]
+        },
+        "IMG_1208-Pano": {
+            "title": "IMG_1208-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1208-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1156-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_6r1mbl0l4"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1245-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_tvhzkyre9"
+                }
+            ]
+        },
+        "IMG_1245-Pano": {
+            "title": "IMG_1245-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1245-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1208-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_ckjrsmv1r"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1283-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_5pcafqwcr"
+                }
+            ]
+        },
+        "IMG_1283-Pano": {
+            "title": "IMG_1283-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1283-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1245-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_nonqljlsr"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1320-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_36bp71w92"
+                }
+            ]
+        },
+        "IMG_1320-Pano": {
+            "title": "IMG_1320-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1320-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1283-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_mdx0646sn"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1356-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_k2za06t3c"
+                }
+            ]
+        },
+        "IMG_1356-Pano": {
+            "title": "IMG_1356-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1356-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1320-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_vmp8gj8l8"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1394-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_bxnlu7d7v"
+                }
+            ]
+        },
+        "IMG_1394-Pano": {
+            "title": "IMG_1394-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1394-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1356-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_4o32mm3j0"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1434-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_wur56xnu7"
+                }
+            ]
+        },
+        "IMG_1434-Pano": {
+            "title": "IMG_1434-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1434-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1394-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_h7xhuxa73"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1466-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_bm9hfth9k"
+                }
+            ]
+        },
+        "IMG_1466-Pano": {
+            "title": "IMG_1466-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1466-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1434-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_qjv9m6u00"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1542-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_q2wrva2gw"
+                }
+            ]
+        },
+        "IMG_1542-Pano": {
+            "title": "IMG_1542-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1542-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1466-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_6nw9bqyem"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1581-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_wjkg0vxhi"
+                }
+            ]
+        },
+        "IMG_1581-Pano": {
+            "title": "IMG_1581-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1581-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1542-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_17irsgd6s"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1622-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_fs0xgmczl"
+                }
+            ]
+        },
+        "IMG_1622-Pano": {
+            "title": "IMG_1622-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1622-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1581-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_56a11bevw"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1698-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_1tvqoe8cx"
+                }
+            ]
+        },
+        "IMG_1698-Pano": {
+            "title": "IMG_1698-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1698-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1622-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_t5mv5fm74"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1743-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_bc07phssm"
+                }
+            ]
+        },
+        "IMG_1743-Pano": {
+            "title": "IMG_1743-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1743-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1698-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_bmat86chl"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1786-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_roae20fw8"
+                }
+            ]
+        },
+        "IMG_1786-Pano": {
+            "title": "IMG_1786-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1786-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1743-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_o6yjcsa5e"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1825-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_qp0wxv24a"
+                }
+            ]
+        },
+        "IMG_1825-Pano": {
+            "title": "IMG_1825-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1825-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1786-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_vyi1gglc1"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1947-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_sar21y7jk"
+                }
+            ]
+        },
+        "IMG_1947-Pano": {
+            "title": "IMG_1947-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1947-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1825-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_7kp994nzl"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_1991-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_u6g6omssg"
+                }
+            ]
+        },
+        "IMG_1991-Pano": {
+            "title": "IMG_1991-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_1991-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1947-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_u71ivh5xl"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2034-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_dt8i2yecu"
+                }
+            ]
+        },
+        "IMG_2034-Pano": {
+            "title": "IMG_2034-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2034-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_1991-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_m34f5xsdl"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2120-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_8f9mopa7z"
+                }
+            ]
+        },
+        "IMG_2120-Pano": {
+            "title": "IMG_2120-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2120-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_2034-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_z6gzylsbj"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2207-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_8h7z1rzkl"
+                }
+            ]
+        },
+        "IMG_2207-Pano": {
+            "title": "IMG_2207-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2207-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_2120-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_u999hcmxg"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2252-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_ubhk40jwp"
+                }
+            ]
+        },
+        "IMG_2252-Pano": {
+            "title": "IMG_2252-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2252-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_2207-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_n8lb6defa"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2302-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_6tu1bjbx5"
+                }
+            ]
+        },
+        "IMG_2302-Pano": {
+            "title": "IMG_2302-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2302-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_2252-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_aaxk21jzb"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2400-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_eksqjtjir"
+                }
+            ]
+        },
+        "IMG_2400-Pano": {
+            "title": "IMG_2400-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2400-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_2302-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_nmwhajftd"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2441-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_3c2ep6mux"
+                }
+            ]
+        },
+        "IMG_2441-Pano": {
+            "title": "IMG_2441-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2441-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_2400-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_smt917h8r"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": 0,
+                    "type": "scene",
+                    "text": "Sonraki (Next)",
+                    "sceneId": "IMG_2482-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_dz9teke2h"
+                }
+            ]
+        },
+        "IMG_2482-Pano": {
+            "title": "IMG_2482-Pano.jpg",
+            "type": "equirectangular",
+            "panorama": "jpeg/IMG_2482-Pano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Önceki (Previous)",
+                    "sceneId": "IMG_2441-Pano",
+                    "targetYaw": 0,
+                    "id": "hs_lkib8mrf9"
+                }
+            ]
+        }
+    },
+    "socialMedia": [],
+    "customAutoRotate": {
+        "enabled": false,
+        "speed": 5,
+        "autoScene": true
+    },
+    "ui_elements": [
+        {
+            "id": "menu_1783039756463",
+            "text": "hcontact",
+            "type": "popup",
+            "content": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d533.9342383478931!2d30.64138602176633!3d37.008122416968575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1str!2str!4v1783039649603!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>",
+            "css_top": 49,
+            "css_left": 1119
+        }
+    ]
+}
