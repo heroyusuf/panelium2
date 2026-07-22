@@ -21,4 +21,15 @@
 - [x] Add **📁 Asset Yönetimi** sub-panel to editor
 - [x] Add `/export_tour` zip generator endpoint to `editor_server.py`
 - [x] Add **📦 Dışa Aktar** sub-panel to editor
-- [x] Final end-to-end MVP verification
+## Phase 5: Interactive Editor Improvements
+- [x] Hotspot click-to-select with pulsing selection ring (`.hs-selected`)
+- [x] Visual row highlight in hotspot list panel (`.hs-row-selected`)
+- [x] Keyboard arrow fine-adjustment (0.1° / 1.0° with Shift)
+- [x] Keyboard Delete/Backspace to remove selected hotspot
+- [x] Keyboard Escape to deselect
+- [x] Header extended properties: Width, Padding, Margin, Alignment, Background
+- [x] Footer extended properties: Height, Padding, Margin, Alignment, Opacity, Background
+- [x] `initSkinPanels()` updated to sync all new header/footer fields
+- [x] Hover labels via CSS `[data-label]::before` pseudo-element
+- [x] MutationObserver wires `data-label` onto all `.pnlm-hotspot` elements
+- [x] Skin buttons tagged with `data-label` for hover tooltips

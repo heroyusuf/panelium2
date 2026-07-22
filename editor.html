@@ -929,6 +929,98 @@
             margin: 0;
             width: 50px;
         }
+
+        /* ── Phase 5: Hotspot Selection Ring ── */
+        .pnlm-hotspot.hs-selected {
+            outline: 3px solid #ffcc00 !important;
+            outline-offset: 3px !important;
+            box-shadow: 0 0 0 6px rgba(255,204,0,0.25), 0 0 20px rgba(255,204,0,0.4) !important;
+            border-radius: 50% !important;
+            animation: hs-pulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes hs-pulse {
+            0%, 100% { box-shadow: 0 0 0 6px rgba(255,204,0,0.25), 0 0 20px rgba(255,204,0,0.4); }
+            50%       { box-shadow: 0 0 0 10px rgba(255,204,0,0.1), 0 0 30px rgba(255,204,0,0.6); }
+        }
+
+        /* Hotspot list: selected row highlight */
+        .hs-list-item.hs-row-selected {
+            border-left: 3px solid #ffcc00;
+            background: #1a1500;
+        }
+
+        /* ── Phase 5: Hover Tooltip (data-label) ── */
+        [data-label] {
+            position: relative;
+        }
+
+        [data-label]::before {
+            content: attr(data-label);
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.85);
+            background: rgba(0,0,0,0.88);
+            color: #fff;
+            font-size: 11px;
+            font-family: sans-serif;
+            font-weight: normal;
+            padding: 4px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+            z-index: 100000;
+            border: 1px solid rgba(255,204,0,0.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        [data-label]:hover::before {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* Arrow under tooltip */
+        [data-label]::after {
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0,0,0,0.88);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.18s ease;
+            z-index: 100000;
+        }
+
+        [data-label]:hover::after {
+            opacity: 1;
+        }
+
+        /* ── Phase 5: Extended Layout Controls ── */
+        .layout-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .layout-grid-2 label {
+            margin: 0 0 3px;
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .layout-grid-2 input,
+        .layout-grid-2 select {
+            margin-top: 0;
+            padding: 5px 6px;
+            font-size: 11px;
+        }
     </style>
 </head>
 
@@ -1126,24 +1218,56 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <label>Stil</label>
-                    <select id="header-style" class="sp-select" onchange="updateLayout('header','style',this.value)">
-                        <option value="floating">Floating (Şeffaf)</option>
-                        <option value="docked">Docked (Sabit)</option>
-                        <option value="minimal">Minimal</option>
-                    </select>
-                    <label>Konum</label>
-                    <select id="header-position" class="sp-select"
-                        onchange="updateLayout('header','position',this.value)">
-                        <option value="top">Üst</option>
-                        <option value="bottom">Alt</option>
-                    </select>
-                    <label>Yükseklik</label>
-                    <input type="text" id="header-height" class="sp-input" placeholder="64px"
-                        oninput="updateLayout('header','height',this.value)">
-                    <label>Opaklık (0–1)</label>
-                    <input type="number" id="header-opacity" class="sp-input" min="0" max="1" step="0.05"
-                        placeholder="0.9" oninput="updateLayout('header','opacity',parseFloat(this.value))">
+                    <div class="layout-grid-2">
+                        <div>
+                            <label>Stil</label>
+                            <select id="header-style" class="sp-select" onchange="updateLayout('header','style',this.value)">
+                                <option value="floating">Floating</option>
+                                <option value="docked">Docked</option>
+                                <option value="minimal">Minimal</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Konum</label>
+                            <select id="header-position" class="sp-select" onchange="updateLayout('header','position',this.value)">
+                                <option value="top">Üst</option>
+                                <option value="bottom">Alt</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Yükseklik</label>
+                            <input type="text" id="header-height" class="sp-input" placeholder="64px" oninput="updateLayout('header','height',this.value)">
+                        </div>
+                        <div>
+                            <label>Genişlik</label>
+                            <input type="text" id="header-width" class="sp-input" placeholder="100%" oninput="updateLayout('header','width',this.value)">
+                        </div>
+                        <div>
+                            <label>Padding</label>
+                            <input type="text" id="header-padding" class="sp-input" placeholder="0 20px" oninput="updateLayout('header','padding',this.value)">
+                        </div>
+                        <div>
+                            <label>Margin</label>
+                            <input type="text" id="header-margin" class="sp-input" placeholder="0" oninput="updateLayout('header','margin',this.value)">
+                        </div>
+                        <div>
+                            <label>Hizalama</label>
+                            <select id="header-align" class="sp-select" onchange="updateLayout('header','align',this.value)">
+                                <option value="flex-start">Sol</option>
+                                <option value="center">Orta</option>
+                                <option value="flex-end">Sağ</option>
+                                <option value="space-between">Yayılmış</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Opaklık (0–1)</label>
+                            <input type="number" id="header-opacity" class="sp-input" min="0" max="1" step="0.05" placeholder="0.9" oninput="updateLayout('header','opacity',parseFloat(this.value))">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Arka Plan Rengi</label>
+                        <input type="text" id="header-bg" class="sp-input" placeholder="rgba(0,0,0,0.7)" oninput="updateLayout('header','background',this.value)">
+                    </div>
 
                     <div class="section-title">Logo</div>
                     <div class="toggle-row">
@@ -1154,35 +1278,63 @@
                         </label>
                     </div>
                     <label>Logo URL</label>
-                    <input type="text" id="logo-url" class="sp-input" placeholder="icon/logo.png"
-                        oninput="updateLogoField('url',this.value)">
+                    <input type="text" id="logo-url" class="sp-input" placeholder="icon/logo.png" oninput="updateLogoField('url',this.value)">
                     <label>Alt Metin</label>
-                    <input type="text" id="logo-alt" class="sp-input" placeholder="Resort Adı"
-                        oninput="updateLogoField('alt',this.value)">
+                    <input type="text" id="logo-alt" class="sp-input" placeholder="Resort Adı" oninput="updateLogoField('alt',this.value)">
                     <label>Genişlik</label>
-                    <input type="text" id="logo-width" class="sp-input" placeholder="140px"
-                        oninput="updateLogoField('width',this.value)">
+                    <input type="text" id="logo-width" class="sp-input" placeholder="140px" oninput="updateLogoField('width',this.value)">
 
                     <div class="section-title">Footer (Alt Bar)</div>
                     <div class="toggle-row">
                         <label>Footer Aktif</label>
                         <label class="skin-toggle">
-                            <input type="checkbox" id="footer-enabled"
-                                onchange="updateLayout('footer','enabled',this.checked)">
+                            <input type="checkbox" id="footer-enabled" onchange="updateLayout('footer','enabled',this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <label>Footer Stili</label>
-                    <select id="footer-style" class="sp-select" onchange="updateLayout('footer','style',this.value)">
-                        <option value="thumbnails">Sahne Thumbnails Şeridi</option>
-                        <option value="minimal">Minimal</option>
-                        <option value="hidden">Gizli</option>
-                    </select>
-                    <div class="toggle-row">
+                    <div class="layout-grid-2">
+                        <div>
+                            <label>Footer Stili</label>
+                            <select id="footer-style" class="sp-select" onchange="updateLayout('footer','style',this.value)">
+                                <option value="thumbnails">Thumbnails</option>
+                                <option value="minimal">Minimal</option>
+                                <option value="hidden">Gizli</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Yükseklik</label>
+                            <input type="text" id="footer-height" class="sp-input" placeholder="80px" oninput="updateLayout('footer','height',this.value)">
+                        </div>
+                        <div>
+                            <label>Padding</label>
+                            <input type="text" id="footer-padding" class="sp-input" placeholder="0 16px" oninput="updateLayout('footer','padding',this.value)">
+                        </div>
+                        <div>
+                            <label>Margin</label>
+                            <input type="text" id="footer-margin" class="sp-input" placeholder="0" oninput="updateLayout('footer','margin',this.value)">
+                        </div>
+                        <div>
+                            <label>Hizalama</label>
+                            <select id="footer-align" class="sp-select" onchange="updateLayout('footer','align',this.value)">
+                                <option value="flex-start">Sol</option>
+                                <option value="center">Orta</option>
+                                <option value="flex-end">Sağ</option>
+                                <option value="space-between">Yayılmış</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Opaklık (0–1)</label>
+                            <input type="number" id="footer-opacity" class="sp-input" min="0" max="1" step="0.05" placeholder="1" oninput="updateLayout('footer','opacity',parseFloat(this.value))">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Arka Plan Rengi</label>
+                        <input type="text" id="footer-bg" class="sp-input" placeholder="rgba(0,0,0,0.8)" oninput="updateLayout('footer','background',this.value)">
+                    </div>
+                    <div class="toggle-row" style="margin-top:8px;">
                         <label>Tam Ekran Butonu</label>
                         <label class="skin-toggle">
-                            <input type="checkbox" id="footer-fullscreen"
-                                onchange="updateLayout('footer','show_fullscreen',this.checked)">
+                            <input type="checkbox" id="footer-fullscreen" onchange="updateLayout('footer','show_fullscreen',this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -2094,6 +2246,7 @@
                 btn.id = 'skin-preview-' + item.id;
                 btn.textContent = item.text;
                 btn.setAttribute('data-tooltip', item.text);
+                btn.setAttribute('data-label', item.text);
                 btn.setAttribute('data-skin-id', item.id);
 
                 /* Konum: css_top ve css_left varsa uygula, yoksa varsayılan grid */
@@ -2352,7 +2505,7 @@
             }
             updatePresetButtons(theme.preset);
 
-            // Layout panel
+            // Layout panel (extended)
             var header = skin.header || {};
             var footer = skin.footer || {};
             var logo = skin.logo || {};
@@ -2360,19 +2513,31 @@
             document.getElementById('header-style').value = header.style || 'floating';
             document.getElementById('header-position').value = header.position || 'top';
             document.getElementById('header-height').value = header.height || '64px';
+            document.getElementById('header-width').value = header.width || '100%';
+            document.getElementById('header-padding').value = header.padding || '';
+            document.getElementById('header-margin').value = header.margin || '';
+            document.getElementById('header-align').value = header.align || 'space-between';
             document.getElementById('header-opacity').value = header.opacity !== undefined ? header.opacity : 0.9;
+            document.getElementById('header-bg').value = header.background || '';
             document.getElementById('logo-enabled').checked = logo.enabled !== false;
             document.getElementById('logo-url').value = logo.url || '';
             document.getElementById('logo-alt').value = logo.alt || '';
             document.getElementById('logo-width').value = logo.width || '140px';
             document.getElementById('footer-enabled').checked = footer.enabled !== false;
             document.getElementById('footer-style').value = footer.style || 'thumbnails';
+            document.getElementById('footer-height').value = footer.height || '';
+            document.getElementById('footer-padding').value = footer.padding || '';
+            document.getElementById('footer-margin').value = footer.margin || '';
+            document.getElementById('footer-align').value = footer.align || 'center';
+            document.getElementById('footer-opacity').value = footer.opacity !== undefined ? footer.opacity : 1;
+            document.getElementById('footer-bg').value = footer.background || '';
             document.getElementById('footer-fullscreen').checked = footer.show_fullscreen !== false;
 
             // Sahne + Popup panels
             renderSahnePanel();
             renderPopupList();
         }
+
 
         /* ── THEME ── */
         var THEME_PRESETS = {
@@ -2679,6 +2844,197 @@
                 }
             }
         }
+
+        /* ════════════════════════════════════════════════════════
+           PHASE 5 — HOTSPOT SELECTION + KEYBOARD + HOVER LABELS
+        ════════════════════════════════════════════════════════
+
+        HOTSPOT CLICK-TO-SELECT:
+          – Click a hotspot → adds .hs-selected + pulsing ring
+          – Highlights matching list row with .hs-row-selected
+          – Opens edit form in the side panel
+          – Click panorama background → deselects
+
+        KEYBOARD CONTROLS (when a hotspot is selected):
+          – Arrow keys → nudge pitch/yaw by 0.1°
+          – Shift+Arrow → nudge by 1.0°
+          – Delete / Backspace → delete selected hotspot
+          – Escape → deselect
+
+        HOVER LABELS:
+          – Every .pnlm-hotspot gets a data-label attribute
+          – Skin buttons already get data-label via renderSkinMenu
+          – CSS ::before pseudo-element renders the tooltip
+        ═════════════════════════════════════════════════════════ */
+
+        /* ── Selection state ── */
+        var _selectedHsId = null;
+        var _selectedHsEl = null;
+
+        /* Select a hotspot by ID */
+        function selectHotspot(hsid) {
+            deselectHotspot(); // Clear previous
+
+            var hsEl = document.querySelector('.pnlm-hotspot.' + hsid);
+            if (!hsEl) return;
+
+            _selectedHsId = hsid;
+            _selectedHsEl = hsEl;
+            hsEl.classList.add('hs-selected');
+
+            // Highlight list row
+            var listItems = document.querySelectorAll('.hs-list-item');
+            listItems.forEach(function(row) {
+                var hasBtn = row.querySelector('[onclick*="' + hsid + '"]');
+                if (hasBtn) row.classList.add('hs-row-selected');
+            });
+
+            // Open edit form
+            var hs = findHotspotInConfig(hsid);
+            if (hs) openEditEditor(hs);
+        }
+
+        /* Deselect current hotspot */
+        function deselectHotspot() {
+            if (_selectedHsEl) {
+                _selectedHsEl.classList.remove('hs-selected');
+            }
+            _selectedHsId = null;
+            _selectedHsEl = null;
+            document.querySelectorAll('.hs-list-item.hs-row-selected').forEach(function(r) {
+                r.classList.remove('hs-row-selected');
+            });
+        }
+
+        /* Intercept hotspot clicks for selection (not during drag) */
+        document.addEventListener('click', function(e) {
+            var hsEl = e.target.closest('.pnlm-hotspot');
+            if (!hsEl) {
+                // Clicked panorama background — deselect
+                if (!e.target.closest('.editor-window') && !e.target.closest('#video-modal') && !e.target.closest('#skin-modal')) {
+                    deselectHotspot();
+                }
+                return;
+            }
+            if (typeof _dragging !== 'undefined' && _dragging) return;
+
+            // Find hsid from class list
+            var hsid = null;
+            var classes = (hsEl.className || '').split(/\s+/);
+            for (var ci = 0; ci < classes.length; ci++) {
+                if (classes[ci].indexOf('hs_') === 0) { hsid = classes[ci]; break; }
+            }
+            if (!hsid) return;
+
+            // Toggle: clicking the already-selected hotspot deselects
+            if (_selectedHsId === hsid) {
+                deselectHotspot();
+            } else {
+                selectHotspot(hsid);
+            }
+        }, false);
+
+        /* ── Keyboard: Arrow nudge + Delete ── */
+        document.addEventListener('keydown', function(e) {
+            // Don't intercept when typing in inputs
+            var tag = (e.target || {}).tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+            if (!_selectedHsId) return;
+            var hs = findHotspotInConfig(_selectedHsId);
+            if (!hs) return;
+
+            var step = e.shiftKey ? 1.0 : 0.1;
+            var handled = true;
+
+            if (e.key === 'ArrowUp')    { hs.pitch = parseFloat((hs.pitch + step).toFixed(4)); }
+            else if (e.key === 'ArrowDown')  { hs.pitch = parseFloat((hs.pitch - step).toFixed(4)); }
+            else if (e.key === 'ArrowLeft')  { hs.yaw   = parseFloat((hs.yaw   - step).toFixed(4)); }
+            else if (e.key === 'ArrowRight') { hs.yaw   = parseFloat((hs.yaw   + step).toFixed(4)); }
+            else if (e.key === 'Delete' || e.key === 'Backspace') {
+                if (!confirm('Seçili hotspot silinsin mi? (' + (hs.text || hs.id) + ')')) return;
+                try { viewer.removeHotSpot(hs.id, currentScene); } catch (er) { }
+                deselectHotspot();
+                closeEditor();
+                refreshHotspotList();
+                return;
+            } else if (e.key === 'Escape') {
+                deselectHotspot();
+                return;
+            } else {
+                handled = false;
+            }
+
+            if (!handled) return;
+            e.preventDefault();
+
+            // Re-inject hotspot at new position
+            try { viewer.removeHotSpot(hs.id, currentScene); } catch (er) { }
+            var hsClone = JSON.parse(JSON.stringify(hs));
+            hsClone.cssClass = hs.id;
+            if (hs.clickHandlerFunc)  { hsClone.clickHandlerFunc = hs.clickHandlerFunc; hsClone.clickHandlerArgs = hs.clickHandlerArgs; }
+            if (hs.createTooltipFunc) { hsClone.createTooltipFunc = hs.createTooltipFunc; hsClone.createTooltipArgs = hs.createTooltipArgs; }
+            viewer.addHotSpot(hsClone, currentScene);
+
+            // Re-apply selection ring (DOM element was recreated)
+            _selectedHsEl = null;
+            setTimeout(function() {
+                var newEl = document.querySelector('.pnlm-hotspot.' + hs.id);
+                if (newEl) {
+                    newEl.classList.add('hs-selected');
+                    _selectedHsEl = newEl;
+                    // Update hover label
+                    newEl.setAttribute('data-label', hs.text || hs.id);
+                }
+            }, 60);
+
+            // Update HUD and list inputs
+            _hud.show(hs.pitch, hs.yaw);
+            setTimeout(function() { _hud.hide(); }, 1200);
+            var lp = document.getElementById('list-pitch-' + hs.id);
+            var ly = document.getElementById('list-yaw-' + hs.id);
+            if (lp) lp.value = hs.pitch.toFixed(4);
+            if (ly) ly.value = hs.yaw.toFixed(4);
+
+            // Sync edit form if open
+            var editIdField = document.getElementById('hs-edit-id');
+            if (editIdField && editIdField.value === hs.id) {
+                document.getElementById('hs-pitch').value = hs.pitch;
+                document.getElementById('hs-yaw').value = hs.yaw;
+            }
+        }, false);
+
+        /* ── Hover Labels: attach data-label to hotspot DOM elements ──
+           Pannellum creates .pnlm-hotspot elements asynchronously.
+           We observe the panorama container and tag each new hotspot. */
+        (function() {
+            var panoEl = document.getElementById('panorama');
+            if (!panoEl || !window.MutationObserver) return;
+
+            var obs = new MutationObserver(function(mutations) {
+                mutations.forEach(function(m) {
+                    m.addedNodes.forEach(function(node) {
+                        if (!node.classList) return;
+                        if (!node.classList.contains('pnlm-hotspot')) return;
+                        // Find hsid
+                        var hsid = null;
+                        var cls = (node.className || '').split(/\s+/);
+                        for (var i = 0; i < cls.length; i++) {
+                            if (cls[i].indexOf('hs_') === 0) { hsid = cls[i]; break; }
+                        }
+                        if (!hsid || !configData) return;
+                        var hs = (configData.scenes[currentScene] && configData.scenes[currentScene].hotSpots || [])
+                                    .find(function(h) { return h.id === hsid; });
+                        if (hs) {
+                            var label = hs.text || hs.type || hsid;
+                            node.setAttribute('data-label', label);
+                        }
+                    });
+                });
+            });
+
+            obs.observe(panoEl, { childList: true, subtree: true });
+        })();
 
     </script>
 </body>

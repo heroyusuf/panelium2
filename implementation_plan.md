@@ -209,4 +209,49 @@ ls -la skin-engine.js skin.css viewer.html editor.html config.json pannellum.js 
 4. Click a CTA/custom menu button → popup opens with correct content
 5. Open `http://localhost:8000/editor.html` — all existing functionality still works
 6. Test the new Tema/Layout/Popup sub-panels in editor
+5. Open `http://localhost:8000/editor.html` — all existing functionality still works
+6. Test the new Tema/Layout/Popup sub-panels in editor
 7. Save config → verify `skin{}` and `panoramas[]` are persisted
+
+---
+
+## Phase 5: Interactive Editor Improvements
+
+### Goal
+Extend the existing editor with interaction quality improvements that make hotspots, menu items, and header/footer fully editable via direct manipulation and keyboard.
+
+### [MODIFY] [editor.html](file:///mnt/4TBSSD/DALYAN_RESORT/panorama/birl%C5%9Ftirilmi%C5%9F/panelium2/editor.html)
+
+#### 1. Hotspot Interactive Manipulation
+- **Click-to-select**: Clicking any `.pnlm-hotspot` adds `.hs-selected` (pulsing yellow outline ring via CSS `@keyframes hs-pulse`). Concurrent click on background deselects.
+- **List row highlight**: The matching `hs-list-item` row gets `.hs-row-selected` (gold left border + dark bg) so the list stays in sync.
+- **Edit form opens automatically** on selection via `openEditEditor()`.
+- **Keyboard arrow nudge**: `ArrowUp/Down` adjusts `pitch` ±0.1° (or ±1.0° with Shift); `ArrowLeft/Right` adjusts `yaw`. Hotspot is re-injected into Pannellum on each nudge. HUD shows live coordinates for 1.2s.
+- **Delete key**: `Delete` or `Backspace` removes the selected hotspot (with confirm dialog).
+- **Escape**: Deselects without deleting.
+- **Auto-save**: Coordinates are stored directly in `configData` and persist through the existing `saveConfig()` flow. No extra save step needed.
+
+#### 2. Extended Header & Footer Layout Controls
+
+The `📐 Layout Ayarları` sub-panel now exposes a 2-column grid for both Header and Footer with:
+| Property | Header | Footer |
+|---|---|---|
+| Style | `floating`/`docked`/`minimal` | `thumbnails`/`minimal`/`hidden` |
+| Position | top/bottom | — |
+| Height | `64px` | `80px` |
+| **Width** | `100%` | — |
+| **Padding** | `0 20px` | `0 16px` |
+| **Margin** | `0` | `0` |
+| **Alignment** | flex-start/center/flex-end/space-between | same |
+| Opacity | 0–1 | 0–1 |
+| **Background** | rgba string | rgba string |
+| Fullscreen btn | — | toggle |
+
+All fields write to `configData.skin.header.*` / `configData.skin.footer.*` via the existing `updateLayout()` function. `initSkinPanels()` was extended to sync all new fields on load.
+
+#### 3. Hover Labels for Scene Objects
+
+- **CSS system**: A single `[data-label]::before` + `[data-label]::after` rule renders a styled tooltip (dark bg, gold border, arrow pointer) with opacity/scale transition on hover. Zero JavaScript for rendering.
+- **Hotspot labels**: A `MutationObserver` watches `#panorama` for new `.pnlm-hotspot` elements. When one appears, it looks up the hotspot config and sets `node.setAttribute('data-label', hs.text || hs.type || hsid)`.
+- **Skin button labels**: `renderSkinMenu()` now also calls `btn.setAttribute('data-label', item.text)` alongside the existing `data-tooltip`.
+- **Extensible**: Any future object rendered into `#panorama` automatically picks up label support by setting `data-label`.

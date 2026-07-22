@@ -12,35 +12,13 @@
             "panorama": "jpeg/IMG_0491-Pano.jpg",
             "hotSpots": [
                 {
-                    "id": "hs_wu84b91oi",
-                    "pitch": 5.353302670737563,
-                    "yaw": 1.2089889402603444,
-                    "type": "scene",
-                    "text": "Sonraki (Next)",
-                    "sceneId": "IMG_0550-Pano",
-                    "customIconImg": "icon/menu_button.png",
-                    "createTooltipArgs": "icon/menu_button.png"
-                },
-                {
-                    "id": "hs_mn22ywuto",
-                    "pitch": 2.3687,
-                    "yaw": -50,
+                    "id": "hs_uyicj9qii",
+                    "pitch": 11.402264066174919,
+                    "yaw": -0.690422445283455,
                     "type": "info",
-                    "text": "ss",
-                    "popupVideo": "https://www.youtube.com/embed/NPoMVNUf9yA",
-                    "clickHandlerArgs": "https://www.youtube.com/embed/NPoMVNUf9yA",
-                    "customIconImg": "icon/video_play.png",
-                    "createTooltipArgs": "icon/video_play.png"
-                },
-                {
-                    "id": "hs_cvbl1s3q5",
-                    "pitch": -4.90798469310276,
-                    "yaw": 0.9173499056659855,
-                    "type": "scene",
-                    "text": "sd",
-                    "sceneId": "IMG_0846-Pano",
-                    "customIconImg": "icon/audio_on.png",
-                    "createTooltipArgs": "icon/audio_on.png"
+                    "text": "bilgi ",
+                    "customIconImg": "icon/exit.png",
+                    "createTooltipArgs": "icon/exit.png"
                 }
             ]
         },
@@ -874,10 +852,12 @@
         {
             "id": "menu_1783039756463",
             "text": "hcontact",
-            "type": "popup",
+            "type": "",
             "content": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d533.9342383478931!2d30.64138602176633!3d37.008122416968575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1str!2str!4v1783039649603!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>",
             "css_top": 100,
-            "css_left": 1014
+            "css_left": 1014,
+            "width": 800,
+            "height": 600
         }
     ],
     "skin": {
@@ -938,9 +918,9 @@
         },
         "popups": [
             {
-                "id": "popup_map_001",
+                "id": "popup_1784690763699",
                 "type": "IFRAME",
-                "title": "Konum",
+                "title": "map",
                 "content": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d533.9342383478931!2d30.64138602176633!3d37.008122416968575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1str!2str!4v1783039649603!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>",
                 "width": "640px",
                 "height": "480px"
