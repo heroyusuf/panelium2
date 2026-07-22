@@ -882,17 +882,17 @@
     ],
     "skin": {
         "theme": {
-            "preset": "luxury",
-            "primary_color": "#1a1a2e",
-            "accent_color": "#c9a84c",
+            "preset": "modern",
+            "primary_color": "#1a1a1a",
+            "accent_color": "#ff4444",
             "text_color": "#ffffff",
-            "background_color": "#0f0f1e",
-            "font_family": "Cormorant Garamond, Georgia, serif",
-            "border_radius": "4px",
-            "glass_effect": true
+            "background_color": "#0d0d0d",
+            "font_family": "Inter, Helvetica, sans-serif",
+            "border_radius": "8px",
+            "glass_effect": false
         },
         "logo": {
-            "enabled": true,
+            "enabled": false,
             "url": "icon/logo.png",
             "alt": "Dalyan Resort",
             "width": "140px",
@@ -902,8 +902,8 @@
         "header": {
             "enabled": true,
             "position": "top",
-            "style": "floating",
-            "height": "64px",
+            "style": "minimal",
+            "height": "30px",
             "opacity": 0.9
         },
         "footer": {

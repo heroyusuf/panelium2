@@ -71,19 +71,19 @@
 ## Gap Analysis (Current vs. MVP Requirements)
 
 > [!IMPORTANT]
-> Per PROJECT_VISION.md, the MVP must include: Panorama Viewer ✅, Scene Manager ✅, Hotspot Editor ✅, **Asset Manager ❌**, JSON Save/Load ✅, **Popup Engine ❌**, **Skin Engine ❌**, **Export Package ❌**
+> Per PROJECT_VISION.md, the MVP must include: Panorama Viewer ✅, Scene Manager ✅, Hotspot Editor ✅, Asset Manager ✅, JSON Save/Load ✅, Popup Engine ✅, Skin Engine ✅, Export Package ✅
 
-| # | Missing Feature | Priority | Complexity | Dependency |
+| # | Feature | Priority | Complexity | Status |
 |---|---|---|---|---|
-| 1 | **Skin Engine** (JSON-driven UI renderer) | 🔴 Critical | High | New file: `skin-engine.js` + `skin.css` |
-| 2 | **Popup Framework** (multi-type popup system) | 🔴 Critical | Medium | Skin Engine |
-| 3 | **Panoramas Array + Scene Manager** (category/order metadata) | 🔴 Critical | Medium | Config migration |
-| 4 | **Theme Engine** (CSS variable presets) | 🟡 High | Low | Skin CSS |
-| 5 | **Config Migration** (add `skin{}` + `panoramas[]` to config.json) | 🔴 Critical | Low | Must be first |
-| 6 | **Viewer Integration** (replace inline skin code with SkinEngine) | 🟡 High | Medium | Skin Engine |
-| 7 | **Editor Skin Panel** (manage skin/popups/theme from editor) | 🟡 High | High | Skin Engine |
-| 8 | **Asset Manager** (browse/upload icons, images) | 🟡 High | Medium | Server endpoint |
-| 9 | **Export Package** (zip download of tour) | 🟢 Medium | Medium | All above |
+| 1 | **Skin Engine** (JSON-driven UI renderer) | 🔴 Critical | High | ✅ Completed (Phase 1 & 2) |
+| 2 | **Popup Framework** (multi-type popup system) | 🔴 Critical | Medium | ✅ Completed (Phase 1 & 2) |
+| 3 | **Panoramas Array + Scene Manager** (category/order metadata) | 🔴 Critical | Medium | ✅ Completed (Phase 3) |
+| 4 | **Theme Engine** (CSS variable presets) | 🟡 High | Low | ✅ Completed (Phase 1) |
+| 5 | **Config Migration** (add `skin{}` + `panoramas[]` to config.json) | 🔴 Critical | Low | ✅ Completed (Phase 1) |
+| 6 | **Viewer Integration** (replace inline skin code with SkinEngine) | 🟡 High | Medium | ✅ Completed (Phase 2) |
+| 7 | **Editor Skin Panel** (manage skin/popups/theme from editor) | 🟡 High | High | ✅ Completed (Phase 3) |
+| 8 | **Asset Manager** (browse/upload icons, images) | 🟡 High | Medium | ✅ Completed (Phase 4) |
+| 9 | **Export Package** (zip download of tour) | 🟢 Medium | Medium | ✅ Completed (Phase 4) |
 
 ---
 

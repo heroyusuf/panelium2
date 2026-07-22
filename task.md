@@ -17,8 +17,8 @@
 - [x] Add **🪟 Popup Yönetimi** sub-panel (CRUD operations for text/image/video/iframe popups)
 
 ## Phase 4: Asset Manager & Export Package
-- [ ] Add `/upload_asset` and `/list_assets` endpoints to `editor_server.py`
-- [ ] Add **📁 Asset Yönetimi** sub-panel to editor
-- [ ] Add `/export_tour` zip generator endpoint to `editor_server.py`
-- [ ] Add **📦 Dışa Aktar** sub-panel to editor
-- [ ] Final end-to-end MVP verification
+- [x] Add `/upload_asset` and `/list_assets` endpoints to `editor_server.py`
+- [x] Add **📁 Asset Yönetimi** sub-panel to editor
+- [x] Add `/export_tour` zip generator endpoint to `editor_server.py`
+- [x] Add **📦 Dışa Aktar** sub-panel to editor
+- [x] Final end-to-end MVP verification
