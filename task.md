@@ -1,13 +1,13 @@
 # Panelium2 MVP Tasks
 
 ## Phase 1: Config Migration & Skin Foundation
-- [ ] Migrate `config.json` schema to include `skin{}` and `panoramas[]` structures
-- [ ] Create `skin-engine.js` (JSON-driven UI render motor, Theme Engine, Layout, Popups, Navigation)
-- [ ] Create `skin.css` (CSS variables, Theme presets, Header/Footer styles, Popup layout variants)
+- [x] Migrate `config.json` schema to include `skin{}` and `panoramas[]` structures
+- [x] Create `skin-engine.js` (JSON-driven UI render motor, Theme Engine, Layout, Popups, Navigation)
+- [x] Create `skin.css` (CSS variables, Theme presets, Header/Footer styles, Popup layout variants)
 
 ## Phase 2: Viewer Integration
-- [ ] Update `viewer.html` to integrate `skin-engine.js` and `skin.css`
-- [ ] Unify popup and thumbnail rendering via `SkinEngine.init`
+- [x] Update `viewer.html` to integrate `skin-engine.js` and `skin.css`
+- [x] Unify popup and thumbnail rendering via `SkinEngine.init`
 - [ ] Test scene navigation, auto-rotate, and popup overlays in viewer
 
 ## Phase 3: Editor Skin Panel Integration

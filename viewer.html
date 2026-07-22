@@ -1,16 +1,17 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="tr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pannellum Görsel Tur</title>
+    <title>Dalyan Resort — Sanal Tur</title>
     <link rel="stylesheet" href="pannellum.css"/>
+    <link rel="stylesheet" href="skin.css"/>
     <script type="text/javascript" src="pannellum.js"></script>
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden; background: #000; color: white;}
+        body { margin: 0; padding: 0; overflow: hidden; background: #000; }
         #panorama { width: 100vw; height: 100vh; }
-        
-        /* Özel ikon görünümü */
+
+        /* Custom hotspot icon */
         .pnlm-hotspot.custom-icon-hs {
             background-image: none !important;
             background-color: transparent !important;
@@ -21,173 +22,76 @@
         }
         .pnlm-hotspot.custom-icon-hs:hover { background-color: transparent !important; }
         .pnlm-hotspot.custom-icon-hs img { display: block; width: 40px; height: 40px; cursor: pointer; }
-        
-        /* Alt bilgi (dosya adı) bandını gizle */
+
+        /* Hide pannellum info bar */
         .pnlm-panorama-info, .pnlm-title-box, .pnlm-author-box { display: none !important; }
-        
-        /* Thumbnails Bar */
-        #scene-dropdown-container {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 20;
-        }
-        #scene-dropdown-btn {
-            background: rgba(0,0,0,0.8);
-            color: #fff;
-            border: 1px solid #555;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            min-width: 250px;
-            text-align: left;
-        }
-        #thumbnail-bar {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            margin-bottom: 5px;
-            width: 300px;
-            max-height: 400px;
-            background: rgba(0,0,0,0.9);
-            border: 1px solid #444;
-            border-radius: 5px;
-            overflow-y: auto;
-            padding: 5px;
-            box-sizing: border-box;
+
+        /* Hotspot video modal (separate from skin popup — triggered by panorama hotspots) */
+        #video-modal {
             display: none;
-        }
-        .thumb-item {
-            display: flex;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 5px;
-            padding: 8px 10px;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid transparent;
-            border-radius: 5px;
-            cursor: pointer;
-            color: #fff;
-            font-size: 14px;
-            transition: 0.3s;
+        }
+        #video-modal.is-open { display: flex; }
+        #video-modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 960px;
+            background: #000;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+        }
+        #video-container { position: absolute; inset: 0; }
+        #video-modal iframe,
+        #video-modal video {
+            position: absolute;
+            inset: 0;
             width: 100%;
-            box-sizing: border-box;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
         }
-        .thumb-item:last-child {
-            margin-bottom: 0;
-        }
-        .thumb-item img {
+        #close-video-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             width: 40px;
             height: 40px;
-            object-fit: cover;
-            border-radius: 3px;
-            margin-right: 10px;
-        }
-        .thumb-item:hover, .thumb-item.active {
-            border-color: #ffcc00;
-            background: #555;
-        }
-        
-        /* Social Media Preview */
-        #social-container-preview { position: absolute; bottom: 20px; right: 20px; z-index: 9998; display: flex; gap: 15px; flex-direction: row; }
-        #social-container-preview img { width: 40px; height: 40px; cursor: pointer; transition: transform 0.2s; }
-        #social-container-preview img:hover { transform: scale(1.1); }
-        
-        /* Skin Menu (serbest konumlandırma) */
-        #skin-menu-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; pointer-events: none; }
-        .skin-btn {
-            pointer-events: auto;
-            position: absolute;
-            background: rgba(0,0,0,0.65);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.25);
-            transition: background 0.25s, color 0.25s, box-shadow 0.25s;
-            text-decoration: none;
+            background: #ffcc00;
+            color: #000;
             font-weight: bold;
-            user-select: none;
-            white-space: nowrap;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            font-size: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #333;
+            z-index: 10001;
+            transition: background 0.2s;
         }
-        .skin-btn:hover { background: rgba(255,255,255,0.92); color: #000; box-shadow: 0 4px 20px rgba(255,204,0,0.4); }
-
-        /* Tooltip (CSS ::after) */
-        .skin-btn[data-tooltip]::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%) scale(0.9);
-            background: rgba(0,0,0,0.85);
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: normal;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 10;
-        }
-        .skin-btn[data-tooltip]:hover::after {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-        }
-
-        /* Skin Modal */
-        #skin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 10002; justify-content: center; align-items: center; }
-        #skin-modal-content { position: relative; width: 80%; max-width: 800px; min-height: 400px; background: rgba(20,20,20,0.9); border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); overflow: hidden; color: white; display: flex; flex-direction: column; }
-        #skin-modal-body { padding: 30px; overflow-y: auto; flex: 1; position: relative; }
-        #close-skin-modal { position: absolute; top: 15px; right: 15px; width: 35px; height: 35px; background: rgba(255,255,255,0.1); color: #fff; font-weight: bold; font-size: 18px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; border: none; z-index: 10003; transition: 0.3s; }
-        #close-skin-modal:hover { background: #f44336; }
-
-        /* Video Modal */
-        #video-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
-        #video-modal-content { position: relative; width: 80%; max-width: 960px; background: #000; border-radius: 8px; box-shadow: 0 4px 25px rgba(0,0,0,0.7); overflow: hidden; aspect-ratio: 16 / 9; }
-        #video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        #video-modal iframe, #video-modal video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px; }
-        #close-modal { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; background: #ffcc00; color: #000; font-weight: bold; font-size: 20px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; border: 2px solid #333; z-index: 10001; }
-        #close-modal:hover { background: #fff; }
+        #close-video-modal:hover { background: #fff; }
     </style>
 </head>
 <body>
 
 <div id="panorama"></div>
-<div id="scene-dropdown-container">
-        <button id="scene-dropdown-btn" onclick="var tb = document.getElementById('thumbnail-bar'); tb.style.display = (tb.style.display === 'none' || tb.style.display === '') ? 'block' : 'none';">
-            <span id="current-scene-title">Sahneler</span>
-            <span style="font-size: 12px; margin-left: auto;">&#9660;</span>
-        </button>
-        <div id="thumbnail-bar" style="display: none;"></div>
-    </div>
-<div id="social-container-preview"></div>
-<div id="skin-menu-container"></div>
 
-<!-- Skin Modal -->
-<div id="skin-modal">
-    <div id="skin-modal-content">
-        <button id="close-skin-modal" onclick="closeSkinModal()">X</button>
-        <div id="skin-modal-body"></div>
-    </div>
-</div>
-
-<!-- Video Modal -->
+<!-- Hotspot Video Modal -->
 <div id="video-modal">
     <div id="video-modal-content">
-        <div id="close-modal" onclick="closeVideoModal()">X</div>
+        <div id="close-video-modal" onclick="closeVideoModal()">✕</div>
         <div id="video-container"></div>
     </div>
 </div>
 
+<script src="skin-engine.js"></script>
 <script>
     var viewer;
     var configData = null;
@@ -195,7 +99,8 @@
     var arInterval = null;
     var arTotalDeg = 0;
 
-    window.customIconTooltipFunc = function(hotSpotDiv, args) {
+    // ── Custom hotspot icon renderer ─────────────────────────
+    window.customIconTooltipFunc = function (hotSpotDiv, args) {
         hotSpotDiv.classList.remove('pnlm-info', 'pnlm-scene', 'pnlm-sprite');
         hotSpotDiv.classList.add('custom-icon-hs');
         hotSpotDiv.innerHTML = '';
@@ -205,6 +110,7 @@
         hotSpotDiv.appendChild(img);
     };
 
+    // ── YouTube URL normalizer ───────────────────────────────
     function parseYouTubeUrl(url) {
         if (!url) return url;
         var m = url.match(/^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
@@ -212,6 +118,7 @@
         return url;
     }
 
+    // ── Hotspot video modal (not the skin popup) ─────────────
     function videoClickHandler(e, url) { openVideoModal(url); }
 
     function openVideoModal(url) {
@@ -221,198 +128,34 @@
         var ext = url.split('.').pop().toLowerCase();
         if (ext === 'mp4' || ext === 'webm' || ext === 'ogg') {
             var v = document.createElement('video');
-            v.src = url; v.controls = true; v.autoplay = true;
-            v.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;';
+            v.src = url;
+            v.controls = true;
+            v.autoplay = true;
+            v.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border-radius:8px;';
             cont.appendChild(v);
         } else {
             var sep = url.indexOf('?') !== -1 ? '&' : '?';
-            cont.innerHTML = '<iframe src="' + url + sep + 'autoplay=1&mute=0" allow="autoplay;fullscreen;accelerometer;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:8px;"></iframe>';
+            cont.innerHTML = '<iframe src="' + url + sep + 'autoplay=1&mute=0" allow="autoplay;fullscreen;accelerometer;gyroscope;picture-in-picture" allowfullscreen></iframe>';
         }
-        document.getElementById('video-modal').style.display = 'flex';
+        document.getElementById('video-modal').classList.add('is-open');
     }
 
     function closeVideoModal() {
         document.getElementById('video-container').innerHTML = '';
-        document.getElementById('video-modal').style.display = 'none';
+        document.getElementById('video-modal').classList.remove('is-open');
     }
 
-    fetch('config.json?t=' + Date.now())
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-            configData = data;
-            
-            // Hazırlık: popup video, custom icon vs
-            for (var sid in configData.scenes) {
-                var sc = configData.scenes[sid];
-                if (!sc.hotSpots) continue;
-                sc.hotSpots.forEach(function(hs) {
-                    if (hs.popupVideo) {
-                        hs.clickHandlerFunc = videoClickHandler;
-                        hs.clickHandlerArgs = hs.popupVideo;
-                    }
-                    if (hs.customIconImg) {
-                        hs.createTooltipFunc = window.customIconTooltipFunc;
-                        hs.createTooltipArgs = hs.customIconImg;
-                    }
-                });
-            }
-
-            viewer = pannellum.viewer('panorama', configData);
-
-            viewer.on('scenechange', function(sceneId) {
-                currentScene = sceneId;
-                updateThumbnails();
-                arTotalDeg = 0;
-            });
-            currentScene = configData.default.firstScene;
-
-            buildThumbnails();
-            renderSocialMedia();
-            renderSkinMenu();
-            
-            // Auto Rotate Config
-            var arCfg = configData.customAutoRotate || {};
-            if (arCfg.enabled) {
-                startAutoRotate(arCfg.speed || 5, !!arCfg.autoScene);
-            }
-
-            // Etkileşimde auto rotate durdur (opsiyonel)
-            viewer.on('mousedown', function() { arTotalDeg = 0; });
-        })
-        .catch(function(err) {
-            console.error('Config error', err);
-            alert('Tur yapılandırması yüklenemedi.');
-        });
-        
-    function renderSocialMedia() {
-        var previewEl = document.getElementById('social-container-preview');
-        previewEl.innerHTML = '';
-        if (configData && configData.socialMedia) {
-            configData.socialMedia.forEach(function(soc) {
-                var a = document.createElement('a'); a.href = soc.url; a.target = '_blank';
-                var img = document.createElement('img'); img.src = soc.icon;
-                a.appendChild(img); previewEl.appendChild(a);
-            });
-        }
-    }
-
-    function renderSkinMenu() {
-        var container = document.getElementById('skin-menu-container');
-        container.innerHTML = '';
-        if (configData && configData.ui_elements) {
-            configData.ui_elements.forEach(function(el, i) {
-                var btn = document.createElement('div');
-                btn.className = 'skin-btn';
-                btn.textContent = el.text;
-                btn.setAttribute('data-tooltip', el.text);
-
-                /* Kalıcı konum: css_top/css_left varsa uygula, yoksa varsayılan */
-                if (el.css_top != null || el.css_left != null) {
-                    btn.style.top  = (el.css_top  != null ? el.css_top  + 'px' : '20px');
-                    btn.style.left = (el.css_left != null ? el.css_left + 'px' : 'auto');
-                    if (el.css_left == null) btn.style.right = '20px';
-                } else {
-                    btn.style.top   = '20px';
-                    btn.style.right = (20 + i * 150) + 'px';
-                }
-
-                btn.onclick = function() { openSkinModal(el); };
-                container.appendChild(btn);
-            });
-        }
-    }
-
-    function openSkinModal(el) {
-        var body = document.getElementById('skin-modal-body');
-        body.innerHTML = '';
-        var modalContent = document.getElementById('skin-modal-content');
-        var w = el.width  || 800;
-        var h = el.height || 600;
-        modalContent.style.maxWidth  = w + 'px';
-        modalContent.style.minHeight = h + 'px';
-
-        if (el.type === 'link') {
-            window.open(el.content, '_blank');
-            return;
-        } else if (el.type === 'popup_iframe') {
-            body.innerHTML = el.content;
-            body.style.padding = '0';
-        } else if (el.type === 'popup_image') {
-            body.innerHTML = '<img src="' + el.content + '" style="max-width:100%;border-radius:8px;">';
-            body.style.padding = '30px';
-        } else if (el.type === 'url') {
-            var iframe = document.createElement('iframe');
-            iframe.src = el.content;
-            iframe.style.cssText = 'width:100%;height:100%;border:none;position:absolute;top:0;left:0;';
-            body.appendChild(iframe);
-            body.style.padding = '0';
-        } else {
-            body.innerHTML = el.content;
-            body.style.padding = '30px';
-        }
-        document.getElementById('skin-modal').style.display = 'flex';
-    }
-
-    function closeSkinModal() {
-        document.getElementById('skin-modal').style.display = 'none';
-        document.getElementById('skin-modal-body').innerHTML = '';
-    }
-
-    function buildThumbnails() {
-        var tb = document.getElementById('thumbnail-bar');
-        tb.innerHTML = '';
-        for (var sid in configData.scenes) {
-            var sc = configData.scenes[sid];
-            var item = document.createElement('div');
-            item.className = 'thumb-item';
-            item.id = 'thumb-' + sid;
-            
-            var imgPath = sc.panorama || '';
-            if (imgPath.indexOf('jpeg/') === 0) {
-                imgPath = imgPath.replace('jpeg/', 'jpeg/preview/');
-            }
-            var imgHtml = imgPath ? '<img src="' + imgPath + '" loading="lazy" alt="thumb">' : '';
-            
-            item.innerHTML = imgHtml + '<span>' + (sc.title || sid) + '</span>';
-            
-            item.onclick = (function(id) {
-                return function() {
-                    viewer.loadScene(id);
-                    document.getElementById('thumbnail-bar').style.display = 'none';
-                };
-            })(sid);
-            tb.appendChild(item);
-        }
-        updateThumbnails();
-    }
-    
-    function updateThumbnails() {
-        var current = viewer.getScene();
-        var items = document.getElementsByClassName('thumb-item');
-        for(var i=0; i<items.length; i++) {
-            items[i].classList.remove('active');
-        }
-        var activeItem = document.getElementById('thumb-' + current);
-        if (activeItem) {
-            activeItem.classList.add('active');
-            activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            var btnTitle = document.getElementById('current-scene-title');
-            if (btnTitle && configData.scenes[current]) {
-                btnTitle.textContent = configData.scenes[current].title || current;
-            }
-        }
-    }
-
+    // ── Auto-rotate ──────────────────────────────────────────
     function startAutoRotate(speed, autoScene) {
         arTotalDeg = 0;
         var lastTime = Date.now();
-        arInterval = setInterval(function() {
+        arInterval = setInterval(function () {
             if (!viewer) return;
-            var now  = Date.now();
-            var dt   = (now - lastTime) / 1000;
+            var now = Date.now();
+            var dt = (now - lastTime) / 1000;
             lastTime = now;
             var step = speed * dt;
-            
+
             if (autoScene) {
                 arTotalDeg += step;
                 if (arTotalDeg >= 360) {
@@ -424,15 +167,60 @@
                     return;
                 }
             }
-            // horizontal line bug olmaması için step kontrolü
-            if (isNaN(step) || step > 10) return; 
-            
+            if (isNaN(step) || step > 10) return;
             var cy = viewer.getYaw();
-            if(!isNaN(cy)){
-                viewer.setYaw(cy + step, false);
-            }
+            if (!isNaN(cy)) viewer.setYaw(cy + step, false);
         }, 16);
     }
+
+    // ── Bootstrap ────────────────────────────────────────────
+    fetch('config.json?t=' + Date.now())
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            configData = data;
+
+            // Prepare hotspots: attach click/icon handlers
+            for (var sid in configData.scenes) {
+                var sc = configData.scenes[sid];
+                if (!sc.hotSpots) continue;
+                sc.hotSpots.forEach(function (hs) {
+                    if (hs.popupVideo) {
+                        hs.clickHandlerFunc = videoClickHandler;
+                        hs.clickHandlerArgs = hs.popupVideo;
+                    }
+                    if (hs.customIconImg) {
+                        hs.createTooltipFunc = window.customIconTooltipFunc;
+                        hs.createTooltipArgs = hs.customIconImg;
+                    }
+                });
+            }
+
+            // Init Pannellum viewer
+            viewer = pannellum.viewer('panorama', configData);
+
+            currentScene = configData.default.firstScene;
+
+            viewer.on('scenechange', function (sceneId) {
+                currentScene = sceneId;
+                arTotalDeg = 0;
+                // SkinEngine tracks its own state via its own scenechange listener
+            });
+
+            viewer.on('mousedown', function () { arTotalDeg = 0; });
+
+            // Init SkinEngine — takes over all UI rendering
+            SkinEngine.init(configData, viewer);
+
+            // Auto-rotate
+            var arCfg = configData.customAutoRotate || {};
+            if (arCfg.enabled) {
+                startAutoRotate(arCfg.speed || 5, !!arCfg.autoScene);
+            }
+        })
+        .catch(function (err) {
+            console.error('Config error', err);
+            alert('Tur yapılandırması yüklenemedi.');
+        });
 </script>
 </body>
 </html>

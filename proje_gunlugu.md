@@ -1,3 +1,11 @@
+[Date: 2026-07-22 | Time: 05:31] - Phase 2 Complete: Viewer Integration
+Technical Summary: Rewrote viewer.html (439 → 226 lines). Removed all inline skin CSS (thumbnails bar, social media, skin-btn, skin-modal, video-modal styles) and removed renderSocialMedia(), renderSkinMenu(), openSkinModal(), closeSkinModal(), buildThumbnails(), updateThumbnails() functions. Added <link href="skin.css"> and <script src="skin-engine.js">. Replaced all UI rendering with single SkinEngine.init(configData, viewer) call. Kept: hotspot video modal (separate concern for panorama hotspot popupVideo), startAutoRotate(), hotspot preparation logic, customIconTooltipFunc, parseYouTubeUrl. Changed video-modal to use CSS class toggle (is-open) instead of inline style.
+Important Notes: Phase 2 task 3 (manual browser test) remains open — requires running server and opening viewer.html in browser. All automated assertions pass. Phase 3 next: Editor skin panels.
+
+[Date: 2026-07-22 | Time: 05:17] - Phase 1 Complete: Config Migration + Skin Foundation
+Technical Summary: Migrated config.json schema — added `skin{}` object (theme, logo, header, footer, navigation, popups, social) and `panoramas[]` array (40 scenes with category, order, thumbnail_url, hidden, icon_type). Migrated existing ui_elements[0] (Google Maps iframe button) into skin.navigation.custom_menus + skin.popups as IFRAME type. Created skin-engine.js (17KB IIFE module: theme engine with 4 presets, header/footer/nav/popup/social rendering, Pannellum event hookup, keyboard navigation). Created skin.css (17KB: CSS custom properties, header, footer, dropdown, scene grid, popup overlay with 7 type variants, social bar, animations, responsive breakpoints).
+Important Notes: config.json.bak created as rollback. All 40 scenes assigned to 6 hotel categories (Genel, Odalar, Havuz, Spa, Restoran, Bahçe). config.json passes JSON validation. Phase 2 next: wire skin-engine.js + skin.css into viewer.html.
+
 [Date: 2026-07-22 | Time: 05:07] - GitHub Sync (Commit & Push)
 Technical Summary: All updated documentation files (`implementation_plan.md`, `task.md`, `proje_gunlugu.md`, `PROJECT_VISION.md`, `Automated Pannellum Virtual Tour.md`) were staged, committed, and successfully pushed to GitHub repository `heroyusuf/panelium2` on branch `main`.
 Important Notes: Commit hash `eab718b`. Working tree is clean.

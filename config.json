@@ -859,7 +859,12 @@
             ]
         }
     },
-    "socialMedia": [],
+    "socialMedia": [
+        {
+            "icon": "icon/close_button_hover.png",
+            "url": "https://www.instagram.com/yusufsenbayrak/"
+        }
+    ],
     "customAutoRotate": {
         "enabled": false,
         "speed": 5,
@@ -871,8 +876,442 @@
             "text": "hcontact",
             "type": "popup",
             "content": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d533.9342383478931!2d30.64138602176633!3d37.008122416968575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1str!2str!4v1783039649603!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>",
-            "css_top": 49,
-            "css_left": 1119
+            "css_top": 100,
+            "css_left": 1014
+        }
+    ],
+    "skin": {
+        "theme": {
+            "preset": "luxury",
+            "primary_color": "#1a1a2e",
+            "accent_color": "#c9a84c",
+            "text_color": "#ffffff",
+            "background_color": "#0f0f1e",
+            "font_family": "Cormorant Garamond, Georgia, serif",
+            "border_radius": "4px",
+            "glass_effect": true
+        },
+        "logo": {
+            "enabled": true,
+            "url": "icon/logo.png",
+            "alt": "Dalyan Resort",
+            "width": "140px",
+            "position": "header_left",
+            "link": ""
+        },
+        "header": {
+            "enabled": true,
+            "position": "top",
+            "style": "floating",
+            "height": "64px",
+            "opacity": 0.9
+        },
+        "footer": {
+            "enabled": true,
+            "style": "thumbnails",
+            "show_fullscreen": true,
+            "thumbnail_size": "120px"
+        },
+        "navigation": {
+            "enabled": true,
+            "label": "Keşfet",
+            "style": "dropdown",
+            "show_categories": true,
+            "categories": [
+                "Genel",
+                "Odalar",
+                "Havuz",
+                "Spa",
+                "Restoran",
+                "Bahçe"
+            ],
+            "custom_menus": [
+                {
+                    "id": "menu_contact",
+                    "label": "hcontact",
+                    "icon": "icon/menu_button.png",
+                    "action": "popup",
+                    "popup_id": "popup_map_001",
+                    "position": "header_right"
+                }
+            ]
+        },
+        "popups": [
+            {
+                "id": "popup_map_001",
+                "type": "IFRAME",
+                "title": "Konum",
+                "content": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d533.9342383478931!2d30.64138602176633!3d37.008122416968575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1str!2str!4v1783039649603!5m2!1str!2str\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>",
+                "width": "640px",
+                "height": "480px"
+            }
+        ],
+        "social": {
+            "enabled": false,
+            "position": "header_right",
+            "items": []
+        }
+    },
+    "panoramas": [
+        {
+            "id": "IMG_0491-Pano",
+            "name": "Panorama 0491",
+            "category": "Genel",
+            "order": 1,
+            "thumbnail_url": "jpeg/IMG_0491-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0550-Pano",
+            "name": "Panorama 0550",
+            "category": "Genel",
+            "order": 2,
+            "thumbnail_url": "jpeg/IMG_0550-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0626-Pano",
+            "name": "Panorama 0626",
+            "category": "Genel",
+            "order": 3,
+            "thumbnail_url": "jpeg/IMG_0626-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0665-Pano",
+            "name": "Panorama 0665",
+            "category": "Genel",
+            "order": 4,
+            "thumbnail_url": "jpeg/IMG_0665-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0700-Pano",
+            "name": "Panorama 0700",
+            "category": "Genel",
+            "order": 5,
+            "thumbnail_url": "jpeg/IMG_0700-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0739-Pano",
+            "name": "Panorama 0739",
+            "category": "Odalar",
+            "order": 6,
+            "thumbnail_url": "jpeg/IMG_0739-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0809-Pano",
+            "name": "Panorama 0809",
+            "category": "Odalar",
+            "order": 7,
+            "thumbnail_url": "jpeg/IMG_0809-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0845-Pano",
+            "name": "Panorama 0845",
+            "category": "Odalar",
+            "order": 8,
+            "thumbnail_url": "jpeg/IMG_0845-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0846-Pano",
+            "name": "Panorama 0846",
+            "category": "Odalar",
+            "order": 9,
+            "thumbnail_url": "jpeg/IMG_0846-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0894-Pano",
+            "name": "Panorama 0894",
+            "category": "Odalar",
+            "order": 10,
+            "thumbnail_url": "jpeg/IMG_0894-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0939-Pano",
+            "name": "Panorama 0939",
+            "category": "Odalar",
+            "order": 11,
+            "thumbnail_url": "jpeg/IMG_0939-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_0978-Pano",
+            "name": "Panorama 0978",
+            "category": "Odalar",
+            "order": 12,
+            "thumbnail_url": "jpeg/IMG_0978-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1029-Pano",
+            "name": "Panorama 1029",
+            "category": "Odalar",
+            "order": 13,
+            "thumbnail_url": "jpeg/IMG_1029-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1082-Pano",
+            "name": "Panorama 1082",
+            "category": "Odalar",
+            "order": 14,
+            "thumbnail_url": "jpeg/IMG_1082-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1156-Pano",
+            "name": "Panorama 1156",
+            "category": "Havuz",
+            "order": 15,
+            "thumbnail_url": "jpeg/IMG_1156-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1208-Pano",
+            "name": "Panorama 1208",
+            "category": "Havuz",
+            "order": 16,
+            "thumbnail_url": "jpeg/IMG_1208-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1245-Pano",
+            "name": "Panorama 1245",
+            "category": "Havuz",
+            "order": 17,
+            "thumbnail_url": "jpeg/IMG_1245-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1283-Pano",
+            "name": "Panorama 1283",
+            "category": "Havuz",
+            "order": 18,
+            "thumbnail_url": "jpeg/IMG_1283-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1320-Pano",
+            "name": "Panorama 1320",
+            "category": "Havuz",
+            "order": 19,
+            "thumbnail_url": "jpeg/IMG_1320-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1356-Pano",
+            "name": "Panorama 1356",
+            "category": "Havuz",
+            "order": 20,
+            "thumbnail_url": "jpeg/IMG_1356-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1394-Pano",
+            "name": "Panorama 1394",
+            "category": "Spa",
+            "order": 21,
+            "thumbnail_url": "jpeg/IMG_1394-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1434-Pano",
+            "name": "Panorama 1434",
+            "category": "Spa",
+            "order": 22,
+            "thumbnail_url": "jpeg/IMG_1434-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1466-Pano",
+            "name": "Panorama 1466",
+            "category": "Spa",
+            "order": 23,
+            "thumbnail_url": "jpeg/IMG_1466-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1542-Pano",
+            "name": "Panorama 1542",
+            "category": "Spa",
+            "order": 24,
+            "thumbnail_url": "jpeg/IMG_1542-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1581-Pano",
+            "name": "Panorama 1581",
+            "category": "Spa",
+            "order": 25,
+            "thumbnail_url": "jpeg/IMG_1581-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1622-Pano",
+            "name": "Panorama 1622",
+            "category": "Restoran",
+            "order": 26,
+            "thumbnail_url": "jpeg/IMG_1622-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1698-Pano",
+            "name": "Panorama 1698",
+            "category": "Restoran",
+            "order": 27,
+            "thumbnail_url": "jpeg/IMG_1698-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1743-Pano",
+            "name": "Panorama 1743",
+            "category": "Restoran",
+            "order": 28,
+            "thumbnail_url": "jpeg/IMG_1743-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1786-Pano",
+            "name": "Panorama 1786",
+            "category": "Restoran",
+            "order": 29,
+            "thumbnail_url": "jpeg/IMG_1786-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1825-Pano",
+            "name": "Panorama 1825",
+            "category": "Restoran",
+            "order": 30,
+            "thumbnail_url": "jpeg/IMG_1825-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1947-Pano",
+            "name": "Panorama 1947",
+            "category": "Restoran",
+            "order": 31,
+            "thumbnail_url": "jpeg/IMG_1947-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_1991-Pano",
+            "name": "Panorama 1991",
+            "category": "Restoran",
+            "order": 32,
+            "thumbnail_url": "jpeg/IMG_1991-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2034-Pano",
+            "name": "Panorama 2034",
+            "category": "Bahçe",
+            "order": 33,
+            "thumbnail_url": "jpeg/IMG_2034-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2120-Pano",
+            "name": "Panorama 2120",
+            "category": "Bahçe",
+            "order": 34,
+            "thumbnail_url": "jpeg/IMG_2120-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2207-Pano",
+            "name": "Panorama 2207",
+            "category": "Bahçe",
+            "order": 35,
+            "thumbnail_url": "jpeg/IMG_2207-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2252-Pano",
+            "name": "Panorama 2252",
+            "category": "Bahçe",
+            "order": 36,
+            "thumbnail_url": "jpeg/IMG_2252-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2302-Pano",
+            "name": "Panorama 2302",
+            "category": "Bahçe",
+            "order": 37,
+            "thumbnail_url": "jpeg/IMG_2302-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2400-Pano",
+            "name": "Panorama 2400",
+            "category": "Bahçe",
+            "order": 38,
+            "thumbnail_url": "jpeg/IMG_2400-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2441-Pano",
+            "name": "Panorama 2441",
+            "category": "Bahçe",
+            "order": 39,
+            "thumbnail_url": "jpeg/IMG_2441-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
+        },
+        {
+            "id": "IMG_2482-Pano",
+            "name": "Panorama 2482",
+            "category": "Bahçe",
+            "order": 40,
+            "thumbnail_url": "jpeg/IMG_2482-Pano.jpg",
+            "hidden": false,
+            "icon_type": "default"
         }
     ]
 }
